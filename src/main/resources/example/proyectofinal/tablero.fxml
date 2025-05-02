@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="example.proyectofinal.TableroController">
+   <children>
+      <Button fx:id="volveratras" layoutX="14.0" layoutY="461.0" mnemonicParsing="false" onAction="#clickVolver" prefHeight="25.0" prefWidth="107.0" text="Volver" />
+      <Button fx:id="siguiente" layoutX="679.0" layoutY="461.0" mnemonicParsing="false" onAction="#clickSiguiente" prefHeight="25.0" prefWidth="107.0" text="Siguiente" />
+      <Label layoutX="300.0" layoutY="50.0" text="SELECCIONE EL TAMAÑO DEL TABLERO" />
+   </children>
+</AnchorPane>

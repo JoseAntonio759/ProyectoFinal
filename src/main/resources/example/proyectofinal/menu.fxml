@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="example.proyectofinal.MenuController">
+   <children>
+      <Button fx:id="botonpartidanueva" layoutX="237.0" layoutY="140.0" mnemonicParsing="false" onAction="#clickIniciarNuevaPartida" prefHeight="25.0" prefWidth="327.0" text="INICIAR NUEVA PARTIDA" />
+      <Button fx:id="botoncargapartida" layoutX="237.0" layoutY="318.0" mnemonicParsing="false" onAction="#clickCargarPartida" prefHeight="25.0" prefWidth="327.0" text="CARGAR PARTIDA" />
+   </children>
+</AnchorPane>
