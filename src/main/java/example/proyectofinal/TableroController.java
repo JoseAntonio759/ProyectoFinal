@@ -33,6 +33,13 @@ public class TableroController {
     protected IntegerProperty medidaAncho = new SimpleIntegerProperty(25);
     protected IntegerProperty medidaLargo = new SimpleIntegerProperty(25);
 
+    public int getMedidaAncho() {
+        return medidaAncho.get();
+    }
+    public int getMedidaLargo() {
+        return medidaLargo.get();
+    }
+
 
 
 
