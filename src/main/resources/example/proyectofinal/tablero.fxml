@@ -10,12 +10,14 @@
       <Button fx:id="volveratras" layoutX="14.0" layoutY="461.0" mnemonicParsing="false" onAction="#clickVolver" prefHeight="25.0" prefWidth="107.0" text="Volver" />
       <Button fx:id="siguiente" layoutX="679.0" layoutY="461.0" mnemonicParsing="false" onAction="#clickSiguiente" prefHeight="25.0" prefWidth="107.0" text="Siguiente" />
       <Label layoutX="300.0" layoutY="50.0" text="SELECCIONE EL TAMAÑO DEL TABLERO" />
-      <Slider fx:id="largo" layoutX="199.0" layoutY="161.0" majorTickUnit="5.0" max="50.0" min="5.0" minorTickCount="1" prefHeight="25.0" prefWidth="390.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="5.0" />
-      <Slider fx:id="ancho" layoutX="199.0" layoutY="337.0" majorTickUnit="5.0" max="50.0" min="5.0" minorTickCount="1" prefHeight="17.0" prefWidth="390.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="5.0" />
+      <Slider fx:id="largoSlider" layoutX="199.0" layoutY="161.0" majorTickUnit="5.0" max="50.0" min="5.0" minorTickCount="1" prefHeight="25.0" prefWidth="390.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="5.0" />
+      <Slider fx:id="anchoSlider" layoutX="199.0" layoutY="337.0" majorTickUnit="5.0" max="50.0" min="5.0" minorTickCount="1" prefHeight="17.0" prefWidth="390.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="5.0" />
       <Label layoutX="345.0" layoutY="106.0" prefHeight="17.0" prefWidth="133.0" text="Seleccione el largo" textAlignment="CENTER" />
       <Label layoutX="351.0" layoutY="296.0" prefHeight="17.0" prefWidth="122.0" text="Seleccione el ancho" />
       <Label fx:id="valorLargo" layoutX="392.0" layoutY="212.0" text="--" />
       <Label fx:id="valorAncho" layoutX="392.0" layoutY="378.0" text="--" />
+      <GridPane fx:id="Grid" layoutX="21.0" layoutY="305.0">
+      </GridPane>
    </children>
    <cursor>
       <Cursor fx:constant="DEFAULT" />

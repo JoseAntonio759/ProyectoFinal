@@ -32,6 +32,10 @@ abstract class Unidades {
         return hp>0;
     }
     boolean isInRango(){
+        if (rango_ataque>=movimiento){
+            return true;
+        }
+        return false;
     }
     void eliminarUnidad(){
     }

@@ -1,6 +1,19 @@
 package example.proyectofinal;
 
+import javafx.fxml.FXML;
+import javafx.scene.layout.GridPane;
+
 public class PartidaController {
+
+
+
+
+    @FXML
+    private GridPane gridPane;
+
+    public void generarTablero(GridPane originalgridPane){
+        gridPane.getChildren().setAll(originalgridPane.getChildren());
+    }
 
 
     protected class ProgramaTablero {
