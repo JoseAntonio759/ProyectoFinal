@@ -1,7 +1,11 @@
 package example.proyectofinal;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
 
 public class PartidaController {
 
@@ -10,10 +14,52 @@ public class PartidaController {
 
     @FXML
     private GridPane gridPane;
+    @FXML
+    private Button PRUEBA;
+    private Stage scene;
 
     public void generarTablero(GridPane originalgridPane){
         gridPane.getChildren().setAll(originalgridPane.getChildren());
     }
+
+    public void colocarUnidades(){
+        PRUEBA.setLayoutX(1);
+        PRUEBA.setLayoutY(1);
+        PRUEBA.setPrefSize(100, 100);
+
+    }
+    public void Informacion(){
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(MenuController.class.getResource("unidades.fxml"));
+        try {
+
+            Scene scene = new Scene(fxmlLoader.load(), 500, 500);
+            stage.setTitle("Pantalla Tablero");
+            stage.setScene(scene);
+
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void Salir() {
+        scene.close();
+    }
+    @FXML
+    public void initialize() {
+        PRUEBA.setText("personaje");
+        colocarUnidades();
+    }
+
+
+
+
+
+
+
+
+
 
 
     protected class ProgramaTablero {
@@ -67,7 +113,7 @@ public class PartidaController {
 
         protected class Matematico extends Unidades {
             protected Matematico() {
-                super("Matematico", 90, 21, 2, 3);
+                super("Matematico", 90, 21, 2, 3,"Ciencias");
             }
 
             @Override
@@ -101,7 +147,7 @@ public class PartidaController {
 
         protected class Ingeniero extends Unidades {
             protected Ingeniero() {
-                super("Ingeniero", 70, 32, 4, 1);
+                super("Ingeniero", 70, 32, 4, 1,"Ciencias");
             }
 
             @Override
@@ -135,7 +181,7 @@ public class PartidaController {
 
         protected class Medico extends Unidades {
             protected Medico() {
-                super("Medico", 120, 17, 2, 3);
+                super("Medico", 120, 17, 2, 3,"Ciencias");
             }
 
             @Override
@@ -169,7 +215,7 @@ public class PartidaController {
 
         protected class Arquitecto extends Unidades {
             protected Arquitecto() {
-                super("Arquitecto", 80, 27, 3, 2);
+                super("Arquitecto", 80, 27, 3, 2,"Ciencias");
             }
 
             @Override
@@ -203,7 +249,7 @@ public class PartidaController {
 
         protected class Fisico extends Unidades {
             protected Fisico() {
-                super("Fisico", 100, 15, 1, 1);
+                super("Fisico", 100, 15, 1, 1,"Ciencias");
             }
 
             @Override
@@ -237,7 +283,7 @@ public class PartidaController {
 
         protected class Filologo extends Unidades {
             protected Filologo() {
-                super("Filologo", 80, 27, 3, 2);
+                super("Filologo", 80, 27, 3, 2,"Letras");
             }
 
             @Override
@@ -271,7 +317,7 @@ public class PartidaController {
 
         protected class Poeta extends Unidades {
             protected Poeta() {
-                super("Poeta", 75, 22, 3, 4);
+                super("Poeta", 75, 22, 3, 4,"Letras");
             }
 
             @Override
@@ -305,7 +351,7 @@ public class PartidaController {
 
         protected class Historiador extends Unidades {
             protected Historiador() {
-                super("Historiador", 120, 17, 2, 2);
+                super("Historiador", 120, 17, 2, 2,"Letras");
             }
 
             @Override
@@ -339,7 +385,7 @@ public class PartidaController {
 
         protected class Periodista extends Unidades {
             protected Periodista() {
-                super("Periodista", 70, 32, 4, 1);
+                super("Periodista", 70, 32, 4, 1,"Letras");
             }
 
             @Override
@@ -373,7 +419,7 @@ public class PartidaController {
 
         protected class Filosofo extends Unidades {
             protected Filosofo() {
-                super("Filosofo", 90, 21, 2, 3);
+                super("Filosofo", 90, 21, 2, 3,"Letras");
             }
 
             @Override

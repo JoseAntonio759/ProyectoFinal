@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="example.proyectofinal.UnidadesController">
+    <children>
+        <Button fx:id="salir" layoutX="450.0" layoutY="450.0" mnemonicParsing="false" onAction="#clickSalir" text="Salir" />
+        <Label fx:id="daño" layoutX="89.0" layoutY="207.0" text="Label" />
+        <Label fx:id="hp" layoutX="89.0" layoutY="183.0" text="Label" />
+        <Label fx:id="movimiento" layoutX="89.0" layoutY="149.0" text="Label" />
+        <Label fx:id="nombre" layoutX="89.0" layoutY="111.0" text="Label" />
+        <Label fx:id="rango_ataque" layoutX="89.0" layoutY="65.0" text="Label" />
+
+    </children>
+</AnchorPane>

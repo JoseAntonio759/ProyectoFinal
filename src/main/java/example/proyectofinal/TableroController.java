@@ -143,7 +143,7 @@ public class TableroController {
         Stage stage = new Stage();
         FXMLLoader fxmlLoader = new FXMLLoader(Menu.class.getResource("partida.fxml"));
         try{
-            Scene scene = new Scene(fxmlLoader.load(), 800, 500);
+            Scene scene = new Scene(fxmlLoader.load(), 1200, 700);
             stage.setTitle("Partida");
             stage.setScene(scene);
             PartidaController partidaController = fxmlLoader.getController();
