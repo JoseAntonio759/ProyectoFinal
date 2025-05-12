@@ -63,7 +63,8 @@ public class PartidaController {
 
 
     protected class ProgramaTablero {
-        private int rondas=0;
+        private int rondas = 0;
+
         protected class Tablero {
             private TableroController ancho;
             private TableroController largo;
@@ -113,7 +114,7 @@ public class PartidaController {
 
         protected class Matematico extends Unidades {
             protected Matematico() {
-                super("Matematico", 90, 21, 2, 3,"Ciencias");
+                super("Matematico", 90, 21, 2, 3, "Ciencias");
             }
 
             @Override
@@ -138,16 +139,18 @@ public class PartidaController {
             }
 
             protected boolean ataque(Unidades unidadAtaque, Unidades unidadDefensa) {
-                if (super.ataque(unidadAtaque, unidadDefensa)==true){
+                if (super.ataque(unidadAtaque, unidadDefensa) == true) {
                     rondas++;
-                    return true;}
+                    aparicion_personaje();
+                    return true;
+                }
                 return false;
             }
         }
 
         protected class Ingeniero extends Unidades {
             protected Ingeniero() {
-                super("Ingeniero", 70, 32, 4, 1,"Ciencias");
+                super("Ingeniero", 70, 32, 4, 1, "Ciencias");
             }
 
             @Override
@@ -172,16 +175,18 @@ public class PartidaController {
             }
 
             protected boolean ataque(Unidades unidadAtaque, Unidades unidadDefensa) {
-                if (super.ataque(unidadAtaque, unidadDefensa)==true){
+                if (super.ataque(unidadAtaque, unidadDefensa) == true) {
                     rondas++;
-                    return true;}
+                    aparicion_personaje();
+                    return true;
+                }
                 return false;
             }
         }
 
         protected class Medico extends Unidades {
             protected Medico() {
-                super("Medico", 120, 17, 2, 3,"Ciencias");
+                super("Medico", 120, 17, 2, 3, "Ciencias");
             }
 
             @Override
@@ -206,16 +211,18 @@ public class PartidaController {
             }
 
             protected boolean ataque(Unidades unidadAtaque, Unidades unidadDefensa) {
-                if (super.ataque(unidadAtaque, unidadDefensa)==true){
+                if (super.ataque(unidadAtaque, unidadDefensa) == true) {
                     rondas++;
-                    return true;}
+                    aparicion_personaje();
+                    return true;
+                }
                 return false;
             }
         }
 
         protected class Arquitecto extends Unidades {
             protected Arquitecto() {
-                super("Arquitecto", 80, 27, 3, 2,"Ciencias");
+                super("Arquitecto", 80, 27, 3, 2, "Ciencias");
             }
 
             @Override
@@ -240,16 +247,18 @@ public class PartidaController {
             }
 
             protected boolean ataque(Unidades unidadAtaque, Unidades unidadDefensa) {
-                if (super.ataque(unidadAtaque, unidadDefensa)==true){
+                if (super.ataque(unidadAtaque, unidadDefensa) == true) {
                     rondas++;
-                    return true;}
+                    aparicion_personaje();
+                    return true;
+                }
                 return false;
             }
         }
 
         protected class Fisico extends Unidades {
             protected Fisico() {
-                super("Fisico", 100, 15, 1, 1,"Ciencias");
+                super("Fisico", 100, 15, 1, 1, "Ciencias");
             }
 
             @Override
@@ -274,16 +283,18 @@ public class PartidaController {
             }
 
             protected boolean ataque(Unidades unidadAtaque, Unidades unidadDefensa) {
-                if (super.ataque(unidadAtaque, unidadDefensa)==true){
+                if (super.ataque(unidadAtaque, unidadDefensa) == true) {
                     rondas++;
-                    return true;}
+                    aparicion_personaje();
+                    return true;
+                }
                 return false;
             }
         }
 
         protected class Filologo extends Unidades {
             protected Filologo() {
-                super("Filologo", 80, 27, 3, 2,"Letras");
+                super("Filologo", 80, 27, 3, 2, "Letras");
             }
 
             @Override
@@ -308,16 +319,18 @@ public class PartidaController {
             }
 
             protected boolean ataque(Unidades unidadAtaque, Unidades unidadDefensa) {
-                if (super.ataque(unidadAtaque, unidadDefensa)==true){
+                if (super.ataque(unidadAtaque, unidadDefensa) == true) {
                     rondas++;
-                    return true;}
+                    aparicion_personaje();
+                    return true;
+                }
                 return false;
             }
         }
 
         protected class Poeta extends Unidades {
             protected Poeta() {
-                super("Poeta", 75, 22, 3, 4,"Letras");
+                super("Poeta", 75, 22, 3, 4, "Letras");
             }
 
             @Override
@@ -342,16 +355,18 @@ public class PartidaController {
             }
 
             protected boolean ataque(Unidades unidadAtaque, Unidades unidadDefensa) {
-                if (super.ataque(unidadAtaque, unidadDefensa)==true){
+                if (super.ataque(unidadAtaque, unidadDefensa) == true) {
                     rondas++;
-                    return true;}
+                    aparicion_personaje();
+                    return true;
+                }
                 return false;
             }
         }
 
         protected class Historiador extends Unidades {
             protected Historiador() {
-                super("Historiador", 120, 17, 2, 2,"Letras");
+                super("Historiador", 120, 17, 2, 2, "Letras");
             }
 
             @Override
@@ -376,16 +391,18 @@ public class PartidaController {
             }
 
             protected boolean ataque(Unidades unidadAtaque, Unidades unidadDefensa) {
-                if (super.ataque(unidadAtaque, unidadDefensa)==true){
+                if (super.ataque(unidadAtaque, unidadDefensa) == true) {
                     rondas++;
-                    return true;}
+                    aparicion_personaje();
+                    return true;
+                }
                 return false;
             }
         }
 
         protected class Periodista extends Unidades {
             protected Periodista() {
-                super("Periodista", 70, 32, 4, 1,"Letras");
+                super("Periodista", 70, 32, 4, 1, "Letras");
             }
 
             @Override
@@ -410,16 +427,18 @@ public class PartidaController {
             }
 
             protected boolean ataque(Unidades unidadAtaque, Unidades unidadDefensa) {
-                if (super.ataque(unidadAtaque, unidadDefensa)==true){
-                rondas++;
-                return true;}
+                if (super.ataque(unidadAtaque, unidadDefensa) == true) {
+                    rondas++;
+                    aparicion_personaje();
+                    return true;
+                }
                 return false;
             }
         }
 
         protected class Filosofo extends Unidades {
             protected Filosofo() {
-                super("Filosofo", 90, 21, 2, 3,"Letras");
+                super("Filosofo", 90, 21, 2, 3, "Letras");
             }
 
             @Override
@@ -444,40 +463,86 @@ public class PartidaController {
             }
 
             protected boolean ataque(Unidades unidadAtaque, Unidades unidadDefensa) {
-                if (super.ataque(unidadAtaque, unidadDefensa)==true){
+                if (super.ataque(unidadAtaque, unidadDefensa) == true) {
                     rondas++;
-                    return true;}
+                    aparicion_personaje();
+
+                    return true;
+                }
                 return false;
             }
         }
+
         public int obtenerNumeroDel1Al5() {
-            return (int)(Math.random() * 5) + 1;}
-        protected void aparicion_personaje(){
-            int numero=obtenerNumeroDel1Al5();
-            if (numero==1){
-                Matematico matematico=new Matematico();
-                Filosofo filosofo=new Filosofo();
-            }
-            if (numero==2){
-                Medico medico=new Medico();
-                Historiador historiador=new Historiador();
-            }
-            if (numero==3){
-                Filologo filologo=new Filologo();
-                Arquitecto arquitecto=new Arquitecto();
-            }
-            if (numero==4){
-                Poeta poeta=new Poeta();
-                Fisico fisico=new Fisico();
-            }
-            if (numero==5){
-                Ingeniero ingeniero=new Ingeniero();
-                Periodista periodista=new Periodista();
-            }
+            return (int) (Math.random() * 5) + 1;
+        }
 
+        public int obtenerNumeroDel1Arondas() {
+            return (int) (Math.random() * rondas) + 1;
+        }
 
+        protected void aparicion_personaje() {
+            int alea = obtenerNumeroDel1Arondas();
+            if (alea == rondas) {
+                int numero = obtenerNumeroDel1Al5();
+                if (numero == 1) {
+                    Matematico matematico = new Matematico();
+                    Filosofo filosofo = new Filosofo();
+                }
+                if (numero == 2) {
+                    Medico medico = new Medico();
+                    Historiador historiador = new Historiador();
+                }
+                if (numero == 3) {
+                    Filologo filologo = new Filologo();
+                    Arquitecto arquitecto = new Arquitecto();
+                }
+                if (numero == 4) {
+                    Poeta poeta = new Poeta();
+                    Fisico fisico = new Fisico();
+                }
+                if (numero == 5) {
+                    Ingeniero ingeniero = new Ingeniero();
+                    Periodista periodista = new Periodista();
+                }
             }
 
         }
-    }
+
+        protected void aparicion_personajeInicial() {
+            if (0 == rondas) {
+                int numero = obtenerNumeroDel1Al5();
+                if (numero == 1) {
+                    Matematico matematico = new Matematico();
+                    Filosofo filosofo = new Filosofo();
+                    Medico medico = new Medico();
+                    Historiador historiador = new Historiador();
+                }
+                if (numero == 2) {
+                    Medico medico = new Medico();
+                    Historiador historiador = new Historiador();
+                    Filologo filologo = new Filologo();
+                    Arquitecto arquitecto = new Arquitecto();
+                }
+                if (numero == 3) {
+                    Filologo filologo = new Filologo();
+                    Arquitecto arquitecto = new Arquitecto();
+                    Poeta poeta = new Poeta();
+                    Fisico fisico = new Fisico();
+                }
+                if (numero == 4) {
+                    Poeta poeta = new Poeta();
+                    Fisico fisico = new Fisico();
+                    Ingeniero ingeniero = new Ingeniero();
+                    Periodista periodista = new Periodista();
+                }
+                if (numero == 5) {
+                    Ingeniero ingeniero = new Ingeniero();
+                    Periodista periodista = new Periodista();
+                    Matematico matematico = new Matematico();
+                    Filosofo filosofo = new Filosofo();
+                }
+            }
+        }
+    }}
 

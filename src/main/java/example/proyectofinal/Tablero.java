@@ -16,7 +16,7 @@ public class Tablero {
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {
                 // Por ahora, todas las casillas iguales (puedes luego hacer aleatorio o con tipo)
-                casillas[i][j] = new Casilla(1, 0, 0); // costo movimiento 1, sin modificadores
+                casillas[i][j] = new Casilla(1, 0, 0, 0); // costo movimiento 1, sin modificadores
             }
         }
     }

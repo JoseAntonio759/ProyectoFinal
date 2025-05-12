@@ -5,12 +5,14 @@ public class Casilla {
     private final int costoMovimiento;
     private final int modificadorDefensa;
     private final int modificadorMovimiento;
+    private final int modificadorDaño;
     private Unidades unidad;
 
-    public Casilla(int costoMovimiento, int modificadorDefensa, int modificadorMovimiento) {
+    public Casilla(int costoMovimiento, int modificadorDefensa, int modificadorMovimiento, int modificadorDaño) {
         this.costoMovimiento = costoMovimiento;
         this.modificadorDefensa = modificadorDefensa;
         this.modificadorMovimiento = modificadorMovimiento;
+        this.modificadorDaño= modificadorDaño;
         this.unidad = null;
     }
 
@@ -26,6 +28,10 @@ public class Casilla {
         return modificadorMovimiento;
     }
 
+    public int getModificadorDaño() {
+        return modificadorDaño;
+    }
+
     public Unidades getUnidad() {
         return unidad;
     }
@@ -37,6 +43,9 @@ public class Casilla {
     public void colocarUnidad(Unidades unidad) {
         if (this.unidad == null) {
             this.unidad = unidad;
+            unidad.setHp(unidad.getHp()+(getModificadorDefensa()) );
+            unidad.setMovimiento(unidad.getMovimiento()+(getModificadorMovimiento()) );
+            unidad.setDaño(unidad.getDaño()+getModificadorDaño());
         } else {
             throw new IllegalStateException("La casilla ya está ocupada");
         }
