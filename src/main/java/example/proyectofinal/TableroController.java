@@ -10,7 +10,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
-import javafx.scene.control.Spinner;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
@@ -34,15 +33,18 @@ public class TableroController {
     @FXML
     private GridPane Grid;
 
+
+
+
     protected IntegerProperty medidaAncho = new SimpleIntegerProperty(25);
     protected IntegerProperty medidaLargo = new SimpleIntegerProperty(25);
 
-    public int getMedidaAncho() {
-        return medidaAncho.get();
+
+
+    public TableroController() {
     }
-    public int getMedidaLargo() {
-        return medidaLargo.get();
-    }
+
+
 
 
 
@@ -77,11 +79,17 @@ public class TableroController {
         }
     }
 
+
+
     @FXML
     protected void clickSiguiente() {
-
         int ancho = medidaAncho.get();
         int largo = medidaLargo.get();
+
+        System.out.println(ancho + "   " + largo );
+
+
+
         Grid.getChildren().clear();
         for (int fila = 0; fila < ancho; fila++) {
             for (int columna = 0; columna < largo; columna++) {
@@ -142,18 +150,26 @@ public class TableroController {
 
         Stage stage = new Stage();
         FXMLLoader fxmlLoader = new FXMLLoader(Menu.class.getResource("partida.fxml"));
+        PartidaController PartidaController = new PartidaController();
+        PartidaController.setDimensiones(ancho, largo);
+        fxmlLoader.setController(PartidaController);
+
         try{
+
+
+
             Scene scene = new Scene(fxmlLoader.load(), 1200, 700);
             stage.setTitle("Partida");
             stage.setScene(scene);
-            PartidaController partidaController = fxmlLoader.getController();
-            partidaController.generarTablero(Grid);
+            PartidaController.generarTablero(Grid);
+
             stage.show();
             Stage ventanaActual = (Stage) siguiente.getScene().getWindow();
             ventanaActual.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
+
 
 
 

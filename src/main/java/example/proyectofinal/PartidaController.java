@@ -17,8 +17,16 @@ public class PartidaController {
     @FXML
     private Button PRUEBA;
     private Stage scene;
+    private int ancho;
+    private int largo;
+
+    public void setDimensiones(int ancho,int largo){
+        this.ancho = ancho;
+        this.largo = largo;
+    }
 
     public void generarTablero(GridPane originalgridPane){
+        System.out.println(ancho + "      " + largo);
         gridPane.getChildren().setAll(originalgridPane.getChildren());
     }
 
@@ -74,8 +82,6 @@ public class PartidaController {
 
 
             public Tablero() {
-                this.ancho1 = ancho.getMedidaAncho();
-                this.largo1 = largo.getMedidaLargo();
                 inicializarTablero();
             }
 
