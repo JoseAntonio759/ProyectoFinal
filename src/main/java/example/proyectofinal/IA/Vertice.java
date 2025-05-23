@@ -3,11 +3,7 @@ package example.proyectofinal.IA;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Clase que contiene la información de un vértice del grafo.
- *
- * @param <T>
- */
+
 public class Vertice<T> {
     T data;
     List<Arista<T>> aristaEntrada;

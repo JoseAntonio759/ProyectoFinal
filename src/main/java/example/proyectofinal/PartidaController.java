@@ -26,7 +26,6 @@ public class PartidaController {
     }
 
     public void generarTablero(GridPane originalgridPane){
-        System.out.println(ancho + "      " + largo);
         gridPane.getChildren().setAll(originalgridPane.getChildren());
     }
 
@@ -59,11 +58,6 @@ public class PartidaController {
         PRUEBA.setText("personaje");
         colocarUnidades();
     }
-
-
-
-
-
 
 
 
@@ -144,7 +138,7 @@ public class PartidaController {
                 return super.isInRango();
             }
 
-            protected boolean ataque(Unidades unidadAtaque, Unidades unidadDefensa) {
+            public boolean ataque(Unidades unidadAtaque, Unidades unidadDefensa) {
                 if (super.ataque(unidadAtaque, unidadDefensa) == true) {
                     rondas++;
                     aparicion_personaje();
@@ -180,7 +174,7 @@ public class PartidaController {
                 return super.isInRango();
             }
 
-            protected boolean ataque(Unidades unidadAtaque, Unidades unidadDefensa) {
+            public boolean ataque(Unidades unidadAtaque, Unidades unidadDefensa) {
                 if (super.ataque(unidadAtaque, unidadDefensa) == true) {
                     rondas++;
                     aparicion_personaje();
@@ -216,7 +210,7 @@ public class PartidaController {
                 return super.isInRango();
             }
 
-            protected boolean ataque(Unidades unidadAtaque, Unidades unidadDefensa) {
+            public boolean ataque(Unidades unidadAtaque, Unidades unidadDefensa) {
                 if (super.ataque(unidadAtaque, unidadDefensa) == true) {
                     rondas++;
                     aparicion_personaje();
@@ -252,7 +246,7 @@ public class PartidaController {
                 return super.isInRango();
             }
 
-            protected boolean ataque(Unidades unidadAtaque, Unidades unidadDefensa) {
+            public boolean ataque(Unidades unidadAtaque, Unidades unidadDefensa) {
                 if (super.ataque(unidadAtaque, unidadDefensa) == true) {
                     rondas++;
                     aparicion_personaje();
@@ -288,7 +282,7 @@ public class PartidaController {
                 return super.isInRango();
             }
 
-            protected boolean ataque(Unidades unidadAtaque, Unidades unidadDefensa) {
+            public boolean ataque(Unidades unidadAtaque, Unidades unidadDefensa) {
                 if (super.ataque(unidadAtaque, unidadDefensa) == true) {
                     rondas++;
                     aparicion_personaje();
@@ -324,7 +318,7 @@ public class PartidaController {
                 return super.isInRango();
             }
 
-            protected boolean ataque(Unidades unidadAtaque, Unidades unidadDefensa) {
+            public boolean ataque(Unidades unidadAtaque, Unidades unidadDefensa) {
                 if (super.ataque(unidadAtaque, unidadDefensa) == true) {
                     rondas++;
                     aparicion_personaje();
@@ -360,7 +354,7 @@ public class PartidaController {
                 return super.isInRango();
             }
 
-            protected boolean ataque(Unidades unidadAtaque, Unidades unidadDefensa) {
+            public boolean ataque(Unidades unidadAtaque, Unidades unidadDefensa) {
                 if (super.ataque(unidadAtaque, unidadDefensa) == true) {
                     rondas++;
                     aparicion_personaje();
@@ -396,7 +390,7 @@ public class PartidaController {
                 return super.isInRango();
             }
 
-            protected boolean ataque(Unidades unidadAtaque, Unidades unidadDefensa) {
+            public boolean ataque(Unidades unidadAtaque, Unidades unidadDefensa) {
                 if (super.ataque(unidadAtaque, unidadDefensa) == true) {
                     rondas++;
                     aparicion_personaje();
@@ -432,7 +426,7 @@ public class PartidaController {
                 return super.isInRango();
             }
 
-            protected boolean ataque(Unidades unidadAtaque, Unidades unidadDefensa) {
+            public boolean ataque(Unidades unidadAtaque, Unidades unidadDefensa) {
                 if (super.ataque(unidadAtaque, unidadDefensa) == true) {
                     rondas++;
                     aparicion_personaje();
@@ -468,7 +462,7 @@ public class PartidaController {
                 return super.isInRango();
             }
 
-            protected boolean ataque(Unidades unidadAtaque, Unidades unidadDefensa) {
+            public boolean ataque(Unidades unidadAtaque, Unidades unidadDefensa) {
                 if (super.ataque(unidadAtaque, unidadDefensa) == true) {
                     rondas++;
                     aparicion_personaje();

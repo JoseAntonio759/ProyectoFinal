@@ -1,6 +1,6 @@
 package example.proyectofinal;
 
-abstract class Unidades {
+public abstract class Unidades {
     int hp;
     int daño;
     int movimiento;
@@ -85,7 +85,7 @@ abstract class Unidades {
     }
     void eliminarUnidad(){
     }
-    boolean ataque(Unidades unidadAtaque, Unidades unidadDefensa){
+    public boolean ataque(Unidades unidadAtaque, Unidades unidadDefensa){
         if (isInRango()){
             unidadDefensa.setHp(unidadDefensa.hp-unidadAtaque.daño);
             if (unidadDefensa.isVivo()==false){
@@ -93,6 +93,6 @@ abstract class Unidades {
             }
             return true;
         }
-        return false;//djñsd
+        return false;
     }
 }

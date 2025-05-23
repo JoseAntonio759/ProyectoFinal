@@ -1,6 +1,7 @@
 package example.proyectofinal;
 
 
+import example.proyectofinal.IA.IAController;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXML;
@@ -86,7 +87,7 @@ public class TableroController {
         int ancho = medidaAncho.get();
         int largo = medidaLargo.get();
 
-        System.out.println(ancho + "   " + largo );
+        System.out.println("aaaa" + ancho + "bbbb" + largo );
 
 
 
@@ -150,9 +151,14 @@ public class TableroController {
 
         Stage stage = new Stage();
         FXMLLoader fxmlLoader = new FXMLLoader(Menu.class.getResource("partida.fxml"));
-        PartidaController PartidaController = new PartidaController();
-        PartidaController.setDimensiones(ancho, largo);
-        fxmlLoader.setController(PartidaController);
+        IAController IAController = new IAController();
+        IAController.setDimensiones(ancho, largo);
+        fxmlLoader.setController(IAController);
+
+
+        PartidaController partidaController = new PartidaController();
+        partidaController.setDimensiones(ancho, largo);
+        fxmlLoader.setController(partidaController);
 
         try{
 
@@ -161,7 +167,7 @@ public class TableroController {
             Scene scene = new Scene(fxmlLoader.load(), 1200, 700);
             stage.setTitle("Partida");
             stage.setScene(scene);
-            PartidaController.generarTablero(Grid);
+            partidaController.generarTablero(Grid);
 
             stage.show();
             Stage ventanaActual = (Stage) siguiente.getScene().getWindow();

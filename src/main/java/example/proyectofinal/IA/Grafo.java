@@ -25,12 +25,12 @@ public class Grafo<T> {
     public Map<Vertice<T>,Camino<T>> dijkstra(Vertice<T> origen) {
 
         Map<Vertice<T>, Integer> distancias = new HashMap<>();
-        Queue<Vertice<T>> colaPendientes = new LinkedList<>();  // Mantiene cuáles son los siguientes vértices a calcular.
-        Map<Vertice<T>, Vertice<T>> verticesAnteriores = new HashMap<>(); //Guarda el rastro del camino para recalcularlo después.
+        Queue<Vertice<T>> colaPendientes = new LinkedList<>();
+        Map<Vertice<T>, Vertice<T>> verticesAnteriores = new HashMap<>();
 
-        this.dijkstra_init(origen,distancias,colaPendientes,verticesAnteriores);  //Inicialización
-        this.dijkstra_calcula(distancias,colaPendientes,verticesAnteriores);      //Cálculo
-        return this.dijkstra_procesaResultados(distancias,verticesAnteriores);    //Procesamiento de resultados
+        this.dijkstra_init(origen,distancias,colaPendientes,verticesAnteriores);
+        this.dijkstra_calcula(distancias,colaPendientes,verticesAnteriores);
+        return this.dijkstra_procesaResultados(distancias,verticesAnteriores);
     }
 
 
@@ -47,16 +47,16 @@ public class Grafo<T> {
 
     protected void dijkstra_calcula(Map<Vertice<T>, Integer> distancias, Queue<Vertice<T>> colaPendientes, Map<Vertice<T>, Vertice<T>> verticesAnteriores){
         while (!colaPendientes.isEmpty()) {
-            Vertice<T> verticeActual = colaPendientes.poll();  // Sacamos un vértice de la cola
+            Vertice<T> verticeActual = colaPendientes.poll();
 
-            for (Arista<T> arista : verticeActual.aristaSalida) {   // Exploramos los arcos de salida del vértice.
-                Vertice<T> verticeVecino = arista.destino;       // Para cada vértice conectado a la salida del arco...
-                int nuevoCalculoDeDistancia = distancias.get(verticeActual) + arista.coste;  // Calculamos su distancia basándonos en lo que nos ha costado llegar al actual. Primer elemento: Coste 0.
+            for (Arista<T> arista : verticeActual.aristaSalida) {
+                Vertice<T> verticeVecino = arista.destino;
+                int nuevoCalculoDeDistancia = distancias.get(verticeActual) + arista.coste;
 
-                if (nuevoCalculoDeDistancia < distancias.get(verticeVecino)) {  // Si resulta que la nueva distancia es mejor que la que se había calculado antes a ese vértice, sustituimos los valores por los nuevos.
-                    distancias.put(verticeVecino, nuevoCalculoDeDistancia);  // Guardamos la nueva distancia.
-                    verticesAnteriores.put(verticeVecino, verticeActual);    // Guardamos el nuevo vértice anterior
-                    colaPendientes.add(verticeVecino);                       // Añadimos el nuevo vértice a la cola de procesamiento, para en el futuro explorar sus salidas....
+                if (nuevoCalculoDeDistancia < distancias.get(verticeVecino)) {
+                    distancias.put(verticeVecino, nuevoCalculoDeDistancia);
+                    verticesAnteriores.put(verticeVecino, verticeActual);
+                    colaPendientes.add(verticeVecino);
                 }
             }
         }
@@ -66,14 +66,14 @@ public class Grafo<T> {
     protected Map<Vertice<T>,Camino<T>>  dijkstra_procesaResultados(Map<Vertice<T>, Integer> distancias, Map<Vertice<T>, Vertice<T>> verticesAnteriores){
         Map<Vertice<T>,Camino<T>> caminos = new HashMap<>();
 
-        for (Vertice<T> verticeDestino : verticesAnteriores.keySet()) {             // De todos los vértices calculados
-            List<Vertice<T>> caminoCalculado = new ArrayList<>();                   // prepara un camino para cada uno
-            Vertice<T> v = verticeDestino;                                          // y en un bucle recorre el camino
-            while (v != null) {                                                     // hacia atrás.
+        for (Vertice<T> verticeDestino : verticesAnteriores.keySet()) {
+            List<Vertice<T>> caminoCalculado = new ArrayList<>();
+            Vertice<T> v = verticeDestino;
+            while (v != null) {
                 caminoCalculado.add(v);
-                v = verticesAnteriores.get(v); //El bucle es sobre v, o sea, los vértices: actualizo hasta que no tenga un origen (primero)
+                v = verticesAnteriores.get(v);
             }
-            Collections.reverse(caminoCalculado);  //Le damos la vuelta, para que el camino empiece en el origen, no en el último.
+            Collections.reverse(caminoCalculado);
             caminos.put(verticeDestino,new Camino<T>(caminoCalculado,distancias.get(verticeDestino)));
         }
         return caminos;
