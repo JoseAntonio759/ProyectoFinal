@@ -1,9 +1,31 @@
 package example.proyectofinal;
 
+import example.proyectofinal.Casilla;
+import example.proyectofinal.Unidades;
+
 public class Tablero {
     private final int filas;
     private final int columnas;
     private final Casilla[][] casillas;
+    private final int maxUnits = 20;
+    private final int maxUnidadesPorFaccion = 10;
+
+    public int getMaxUnits() {
+        return maxUnits;
+    }
+
+    public boolean haAlcanzadoLimitePorFaccion(String faccion) {
+        int count = 0;
+        for (int i = 0; i < filas; i++) {
+            for (int j = 0; j < columnas; j++) {
+                if (casillas[i][j].estaOcupada() &&
+                        casillas[i][j].getUnidad().getFaccion().equals(faccion)) {
+                    count++;
+                }
+            }
+        }
+        return count >= maxUnidadesPorFaccion;
+    }
 
     public Tablero(int filas, int columnas) {
         this.filas = filas;
@@ -15,7 +37,6 @@ public class Tablero {
     private void inicializarCasillas() {
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {
-                // Por ahora, todas las casillas iguales (puedes luego hacer aleatorio o con tipo)
                 casillas[i][j] = new Casilla(1, 0, 0, 0); // costo movimiento 1, sin modificadores
             }
         }

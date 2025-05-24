@@ -2,6 +2,8 @@ package example.proyectofinal;
 
 
 import example.proyectofinal.IA.IAController;
+import example.proyectofinal.Menu;
+import example.proyectofinal.PartidaController;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXML;
@@ -16,7 +18,6 @@ import javafx.stage.Stage;
 
 
 public class TableroController {
-
 
 
     @FXML
@@ -35,19 +36,12 @@ public class TableroController {
     private GridPane Grid;
 
 
-
-
     protected IntegerProperty medidaAncho = new SimpleIntegerProperty(25);
     protected IntegerProperty medidaLargo = new SimpleIntegerProperty(25);
 
 
-
     public TableroController() {
     }
-
-
-
-
 
 
     @FXML
@@ -81,68 +75,64 @@ public class TableroController {
     }
 
 
-
     @FXML
     protected void clickSiguiente() {
         int ancho = medidaAncho.get();
         int largo = medidaLargo.get();
 
-        System.out.println("aaaa" + ancho + "bbbb" + largo );
-
+        System.out.println("aaaa" + ancho + "bbbb" + largo);
 
 
         Grid.getChildren().clear();
         for (int fila = 0; fila < ancho; fila++) {
             for (int columna = 0; columna < largo; columna++) {
-                int numero = (int)(Math.random()*30);
-                if(numero == 0) {
-                    Label casilla = new Label("+1 defensa");
+                int numero = (int) (Math.random() * 30);
+                if (numero == 0) {
+                    Button casilla = new Button("+1 defensa");
                     casilla.setMinSize(100, 100);
                     casilla.setAlignment(Pos.CENTER);
                     casilla.setStyle("-fx-border-color: #000000; -fx-text-alignment: center;");
                     Grid.add(casilla, fila, columna);
                 }
-                if(numero == 1){
-                        Label casilla = new Label("+1 ataque");
-                        casilla.setMinSize(100, 100); // Tamaño mínimo para visualización
-                        casilla.setAlignment(Pos.CENTER);
-                        casilla.setStyle("-fx-border-color: #000000; -fx-text-alignment: center;");
-                        Grid.add(casilla, fila, columna);
-                }
-                if(numero == 2){
-                    Label casilla = new Label("+1 movimiento");
-                    casilla.setMinSize(100, 100); // Tamaño mínimo para visualización
+                if (numero == 1) {
+                    Button casilla = new Button("+1 ataque");
+                    casilla.setMinSize(100, 100);
                     casilla.setAlignment(Pos.CENTER);
                     casilla.setStyle("-fx-border-color: #000000; -fx-text-alignment: center;");
                     Grid.add(casilla, fila, columna);
                 }
-                if(numero == 3){
-                    Label casilla = new Label("-1 defensa");
-                    casilla.setMinSize(100, 100); // Tamaño mínimo para visualización
+                if (numero == 2) {
+                    Button casilla = new Button("+1 movimiento");
+                    casilla.setMinSize(100, 100);
                     casilla.setAlignment(Pos.CENTER);
                     casilla.setStyle("-fx-border-color: #000000; -fx-text-alignment: center;");
                     Grid.add(casilla, fila, columna);
                 }
-                if(numero == 4){
-                    Label casilla = new Label("-1 ataque");
-                    casilla.setMinSize(100, 100); // Tamaño mínimo para visualización
+                if (numero == 3) {
+                    Button casilla = new Button("-1 defensa");
+                    casilla.setMinSize(100, 100);
                     casilla.setAlignment(Pos.CENTER);
                     casilla.setStyle("-fx-border-color: #000000; -fx-text-alignment: center;");
                     Grid.add(casilla, fila, columna);
                 }
-                if(numero == 5){
-                    Label casilla = new Label("-1 movimiento");
-                    casilla.setMinSize(100, 100); // Tamaño mínimo para visualización
+                if (numero == 4) {
+                    Button casilla = new Button("-1 ataque");
+                    casilla.setMinSize(100, 100);
                     casilla.setAlignment(Pos.CENTER);
                     casilla.setStyle("-fx-border-color: #000000; -fx-text-alignment: center;");
                     Grid.add(casilla, fila, columna);
                 }
-
-                else {
-                    Label label = new Label();
-                    label.setMinSize(100, 100);
-                    label.setStyle("-fx-border-color: #000000;-fx-alignment: center");
-                    Grid.add(label, fila, columna);
+                if (numero == 5) {
+                    Button casilla = new Button("-1 movimiento");
+                    casilla.setMinSize(100, 100);
+                    casilla.setAlignment(Pos.CENTER);
+                    casilla.setStyle("-fx-border-color: #000000; -fx-text-alignment: center;");
+                    Grid.add(casilla, fila, columna);
+                } else {
+                    Button boton = new Button();
+                    boton.setMinSize(100, 100);
+                    boton.setStyle("-fx-border-color: #000000;-fx-alignment: center");
+                    Grid.add(boton, fila, columna);
 
                 }
             }
@@ -160,8 +150,7 @@ public class TableroController {
         partidaController.setDimensiones(ancho, largo);
         fxmlLoader.setController(partidaController);
 
-        try{
-
+        try {
 
 
             Scene scene = new Scene(fxmlLoader.load(), 1200, 700);
@@ -177,30 +166,7 @@ public class TableroController {
         }
 
 
-
-
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }

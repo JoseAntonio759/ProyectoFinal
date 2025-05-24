@@ -1,6 +1,8 @@
 package example.proyectofinal;
 
-import example.proyectofinal.*;
+import example.proyectofinal.Casilla;
+import example.proyectofinal.Tablero;
+import example.proyectofinal.Unidades;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
@@ -9,6 +11,12 @@ public class UnidadesController {
 
     @FXML
     private Button salir;
+
+    @FXML
+    private Button moverse;
+    @FXML
+    private Button atacar;
+
 
     private final int filas = 10;
     private final int columnas = 10;
@@ -20,7 +28,6 @@ public class UnidadesController {
         tablero = new Tablero(filas, columnas);
         botones = new Button[filas][columnas];
 
-
         for (int fila = 0; fila < filas; fila++) {
             for (int col = 0; col < columnas; col++) {
                 Button btn = new Button(" ");
@@ -31,7 +38,6 @@ public class UnidadesController {
                 btn.setOnAction(e -> manejarClick(f, c));
 
                 botones[fila][col] = btn;
-
                 actualizarBoton(fila, col);
             }
         }
@@ -41,7 +47,8 @@ public class UnidadesController {
         Casilla casilla = tablero.getCasilla(fila, col);
         if (casilla.estaOcupada()) {
             Unidades u = casilla.getUnidad();
-            System.out.println("Unidad: " + u.getNombre() + " | HP: " + u.getHp());
+            System.out.println("Unidad: " + u.getNombre() + " | HP: " + u.getHp() + " | Daño: " + u.getDaño() +
+                             " | Movimiento: " + u.getMovimiento() + " | Rango: " + u.getRango_ataque());
         } else {
             System.out.println("Casilla vacía");
         }
@@ -51,10 +58,10 @@ public class UnidadesController {
         Unidades u = tablero.getCasilla(fila, col).getUnidad();
         botones[fila][col].setText((u != null) ? String.valueOf(u.getNombre().charAt(0)) : " ");
     }
+
     @FXML
     private void clickSalir() {
         Stage ventanaActual = (Stage) salir.getScene().getWindow();
         ventanaActual.close();
     }
 }
-

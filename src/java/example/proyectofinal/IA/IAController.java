@@ -1,5 +1,8 @@
 package example.proyectofinal.IA;
 
+import example.proyectofinal.IA.Arista;
+import example.proyectofinal.IA.Grafo;
+import example.proyectofinal.IA.Vertice;
 import example.proyectofinal.Unidades;
 
 import java.util.ArrayList;
@@ -14,12 +17,12 @@ public class IAController {
         System.out.println("aaaa" + ancho + "bbbb" + largo);
     }
 
-    Grafo grafo = new Grafo();
+    example.proyectofinal.IA.Grafo grafo = new Grafo();
     private ArrayList<Unidades> unidades = new ArrayList<>();
 
 
     public void generarMapa() {
-        Vertice<String>[][] vertices = new Vertice[ancho][largo];
+        example.proyectofinal.IA.Vertice<String>[][] vertices = new example.proyectofinal.IA.Vertice[ancho][largo];
 
         for (int filas = 0; filas < ancho; filas++) {
             for (int columnas = 0; columnas < largo; columnas++) {
@@ -31,7 +34,7 @@ public class IAController {
         for (int filas = 0; filas < ancho; filas++) {
             for (int columnas = 0; columnas < largo; columnas++) {
                 if (filas + 1 < ancho) {
-                    grafo.addArista(new Arista<>(vertices[filas][columnas], vertices[filas + 1][columnas], 1));
+                    grafo.addArista(new example.proyectofinal.IA.Arista<>(vertices[filas][columnas], vertices[filas + 1][columnas], 1));
                 }
                 if (columnas + 1 < largo) {
                     grafo.addArista(new Arista<>(vertices[filas][columnas], vertices[filas][columnas + 1], 1));

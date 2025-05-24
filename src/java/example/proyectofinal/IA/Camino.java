@@ -1,5 +1,7 @@
 package example.proyectofinal.IA;
 
+import example.proyectofinal.IA.Vertice;
+
 import java.util.List;
 
 public class Camino<T> {

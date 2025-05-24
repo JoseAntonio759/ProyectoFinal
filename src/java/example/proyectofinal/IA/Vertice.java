@@ -1,13 +1,15 @@
 package example.proyectofinal.IA;
 
+import example.proyectofinal.IA.Arista;
+
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class Vertice<T> {
     T data;
-    List<Arista<T>> aristaEntrada;
-    List<Arista<T>> aristaSalida;
+    List<example.proyectofinal.IA.Arista<T>> aristaEntrada;
+    List<example.proyectofinal.IA.Arista<T>> aristaSalida;
 
     public Vertice(T data) {
         this.data = data;
@@ -15,7 +17,7 @@ public class Vertice<T> {
         this.aristaSalida = new ArrayList<>();
     }
 
-    public void addAristaSalida(Arista<T> arista) {
+    public void addAristaSalida(example.proyectofinal.IA.Arista<T> arista) {
         this.aristaSalida.add(arista);
     }
 

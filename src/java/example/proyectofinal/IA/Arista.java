@@ -1,5 +1,7 @@
 package example.proyectofinal.IA;
 
+import example.proyectofinal.IA.Vertice;
+
 public class Arista<T> {
     Vertice<T> origen;
     Vertice<T> destino;
