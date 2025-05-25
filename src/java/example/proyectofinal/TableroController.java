@@ -82,77 +82,103 @@ public class TableroController {
 
         System.out.println("aaaa" + ancho + "bbbb" + largo);
 
-
         Grid.getChildren().clear();
         for (int fila = 0; fila < ancho; fila++) {
             for (int columna = 0; columna < largo; columna++) {
-                int numero = (int) (Math.random() * 30);
-                if (numero == 0) {
-                    Button casilla = new Button("+1 defensa");
-                    casilla.setMinSize(100, 100);
-                    casilla.setAlignment(Pos.CENTER);
-                    casilla.setStyle("-fx-border-color: #000000; -fx-text-alignment: center;");
-                    Grid.add(casilla, fila, columna);
-                }
-                if (numero == 1) {
-                    Button casilla = new Button("+1 ataque");
-                    casilla.setMinSize(100, 100);
-                    casilla.setAlignment(Pos.CENTER);
-                    casilla.setStyle("-fx-border-color: #000000; -fx-text-alignment: center;");
-                    Grid.add(casilla, fila, columna);
-                }
-                if (numero == 2) {
-                    Button casilla = new Button("+1 movimiento");
-                    casilla.setMinSize(100, 100);
-                    casilla.setAlignment(Pos.CENTER);
-                    casilla.setStyle("-fx-border-color: #000000; -fx-text-alignment: center;");
-                    Grid.add(casilla, fila, columna);
-                }
-                if (numero == 3) {
-                    Button casilla = new Button("-1 defensa");
-                    casilla.setMinSize(100, 100);
-                    casilla.setAlignment(Pos.CENTER);
-                    casilla.setStyle("-fx-border-color: #000000; -fx-text-alignment: center;");
-                    Grid.add(casilla, fila, columna);
-                }
-                if (numero == 4) {
-                    Button casilla = new Button("-1 ataque");
-                    casilla.setMinSize(100, 100);
-                    casilla.setAlignment(Pos.CENTER);
-                    casilla.setStyle("-fx-border-color: #000000; -fx-text-alignment: center;");
-                    Grid.add(casilla, fila, columna);
-                }
-                if (numero == 5) {
-                    Button casilla = new Button("-1 movimiento");
-                    casilla.setMinSize(100, 100);
-                    casilla.setAlignment(Pos.CENTER);
-                    casilla.setStyle("-fx-border-color: #000000; -fx-text-alignment: center;");
-                    Grid.add(casilla, fila, columna);
-                } else {
-                    Button boton = new Button();
-                    boton.setMinSize(100, 100);
-                    boton.setStyle("-fx-border-color: #000000;-fx-alignment: center");
-                    Grid.add(boton, fila, columna);
 
+                if (fila == 0 && columna == 0) {
+                    Button matButton = new Button("MAT");
+                    matButton.setMinSize(100, 100);
+                    matButton.setAlignment(Pos.CENTER);
+                    matButton.setStyle("-fx-border-color: #000000; -fx-text-alignment: center;");
+                    Grid.add(matButton, fila, columna);
+                    continue;
                 }
+
+                if (fila == 0 && columna == largo - 1) {
+                    Button hisButton = new Button("HIS");
+                    hisButton.setMinSize(100, 100);
+                    hisButton.setAlignment(Pos.CENTER);
+                    hisButton.setStyle("-fx-border-color: #000000; -fx-text-alignment: center;");
+                    Grid.add(hisButton, fila, columna);
+                    continue;
+                }
+
+                if (fila == ancho - 1 && columna == 0) {
+                    Button poeButton = new Button("POE");
+                    poeButton.setMinSize(100, 100);
+                    poeButton.setAlignment(Pos.CENTER);
+                    poeButton.setStyle("-fx-border-color: #000000; -fx-text-alignment: center;");
+                    Grid.add(poeButton, fila, columna);
+                    continue;
+                }
+
+                if (fila == ancho - 1 && columna == largo - 1) {
+                    Button medButton = new Button("MED");
+                    medButton.setMinSize(100, 100);
+                    medButton.setAlignment(Pos.CENTER);
+                    medButton.setStyle("-fx-border-color: #000000; -fx-text-alignment: center;");
+                    Grid.add(medButton, fila, columna);
+                }else {
+                    int numero1 = (int) (Math.random() * 30);
+                    if (numero1 == 0) {
+                        Button casilla = new Button("+1 defensa");
+                        casilla.setMinSize(100, 100);
+                        casilla.setAlignment(Pos.CENTER);
+                        casilla.setStyle("-fx-border-color: #000000; -fx-text-alignment: center;");
+                        Grid.add(casilla, fila, columna);
+                    } else if (numero1 == 1) {
+                        Button casilla = new Button("+1 ataque");
+                        casilla.setMinSize(100, 100);
+                        casilla.setAlignment(Pos.CENTER);
+                        casilla.setStyle("-fx-border-color: #000000; -fx-text-alignment: center;");
+                        Grid.add(casilla, fila, columna);
+                    } else if (numero1 == 2) {
+                        Button casilla = new Button("+1 movimiento");
+                        casilla.setMinSize(100, 100);
+                        casilla.setAlignment(Pos.CENTER);
+                        casilla.setStyle("-fx-border-color: #000000; -fx-text-alignment: center;");
+                        Grid.add(casilla, fila, columna);
+                    } else if (numero1 == 3) {
+                        Button casilla = new Button("-1 defensa");
+                        casilla.setMinSize(100, 100);
+                        casilla.setAlignment(Pos.CENTER);
+                        casilla.setStyle("-fx-border-color: #000000; -fx-text-alignment: center;");
+                        Grid.add(casilla, fila, columna);
+                    } else if (numero1 == 4) {
+                        Button casilla = new Button("-1 ataque");
+                        casilla.setMinSize(100, 100);
+                        casilla.setAlignment(Pos.CENTER);
+                        casilla.setStyle("-fx-border-color: #000000; -fx-text-alignment: center;");
+                        Grid.add(casilla, fila, columna);
+                    } else if (numero1 == 5) {
+                        Button casilla = new Button("-1 movimiento");
+                        casilla.setMinSize(100, 100);
+                        casilla.setAlignment(Pos.CENTER);
+                        casilla.setStyle("-fx-border-color: #000000; -fx-text-alignment: center;");
+                        Grid.add(casilla, fila, columna);
+                    } else {
+                        Button casilla = new Button("");
+                        casilla.setMinSize(100, 100);
+                        casilla.setAlignment(Pos.CENTER);
+                        casilla.setStyle("-fx-border-color: #000000; -fx-text-alignment: center;");
+                        Grid.add(casilla, fila, columna);
+                    }
+                }
+
             }
         }
-
-
         Stage stage = new Stage();
         FXMLLoader fxmlLoader = new FXMLLoader(Menu.class.getResource("partida.fxml"));
         IAController IAController = new IAController();
         IAController.setDimensiones(ancho, largo);
         fxmlLoader.setController(IAController);
 
-
         PartidaController partidaController = new PartidaController();
         partidaController.setDimensiones(ancho, largo);
         fxmlLoader.setController(partidaController);
 
         try {
-
-
             Scene scene = new Scene(fxmlLoader.load(), 1200, 700);
             stage.setTitle("Partida");
             stage.setScene(scene);
@@ -164,12 +190,5 @@ public class TableroController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
     }
-
-
 }
-
-
-

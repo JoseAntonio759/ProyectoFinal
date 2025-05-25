@@ -6,20 +6,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import javafx.scene.input.MouseEvent;
 
 public class PartidaController {
 
     @FXML
     private GridPane gridPane;
-    @FXML
-    private Button unidad1;
-    @FXML
-    private Button unidad2;
-    @FXML
-    private Button unidad3;
-    @FXML
-    private Button unidad4;
-    private Stage scene;
     private int ancho;
     private int largo;
     private Button selectedUnit;
@@ -29,74 +21,112 @@ public class PartidaController {
     public void setDimensiones(int ancho, int largo) {
         this.ancho = ancho;
         this.largo = largo;
+        inicializarGridPane();
+    }
+
+    private void inicializarGridPane() {
+        if (gridPane != null) {
+            gridPane.getChildren().clear();
+            for (int i = 0; i < ancho; i++) {
+                for (int j = 0; j < largo; j++) {
+                    Button button = new Button();
+                    button.setPrefSize(100, 100);
+                    button.setOnMouseClicked(e -> Control(button, e));
+                    gridPane.add(button, i, j);
+                }
+            }
+        }
+    }
+
+    private void Control(Button button, MouseEvent event) {
+        if (selectedUnit == null) {
+            if (!button.getText().isEmpty()) {
+                selectedUnit = button;
+                marcarCasillasMovimientoPosibles(button);
+                if (event.getClickCount() == 2) {
+                    abrirVentanaUnidades();
+                }
+            }
+        } else {
+            if (button.getStyle().contains("-fx-background-color: #00ff00")) {
+                button.setText(selectedUnit.getText());
+                selectedUnit.setText("");
+                limpiarMarcas();
+                selectedUnit = null;
+            } else if (!button.getText().isEmpty()) {
+                selectedUnit = button;
+                marcarCasillasMovimientoPosibles(button);
+                if (event.getClickCount() == 2) {
+                    abrirVentanaUnidades();
+                }
+            }
+        }
+    }
+
+    private void marcarCasillasMovimientoPosibles(Button unit) {
+        limpiarMarcas();
+
+        int row;
+        if (GridPane.getRowIndex(unit) != null) {
+            row = GridPane.getRowIndex(unit);
+        } else {
+            row = 0;
+        }
+        int col;
+        if (GridPane.getColumnIndex(unit) != null) {
+            col = GridPane.getColumnIndex(unit);
+        } else {
+            col = 0;
+        }
+        for (int i = -1; i <= 1; i++) {
+            for (int j = -1; j <= 1; j++) {
+                if (!(i == 0 && j == 0)) {
+                    marcarCasillaValida(row + i, col + j); 
+                }
+            }
+        }
+    }
+
+    private void marcarCasillaValida(int row, int col) {
+        if (row >= 0 && row < largo && col >= 0 && col < ancho) {
+            Button targetButton = getButtonAt(row, col);
+            if (targetButton != null && targetButton.getText().isEmpty()) {
+                targetButton.setStyle("-fx-background-color: #00ff00;");
+            }
+        }
+    }
+
+    private Button getButtonAt(int row, int col) {
+        for (javafx.scene.Node node : gridPane.getChildren()) {
+            if (node instanceof Button &&
+                    GridPane.getRowIndex(node) == row &&
+                    GridPane.getColumnIndex(node) == col) {
+                return (Button) node;
+            }
+        }
+        return null;
+    }
+
+    private void limpiarMarcas() {
+        gridPane.getChildren().forEach(node -> {
+            if (node instanceof Button) {
+                node.setStyle("");
+            }
+        });
     }
 
     public void generarTablero(GridPane originalgridPane) {
         if (gridPane == null) return;
 
         gridPane.getChildren().setAll(originalgridPane.getChildren());
-
         gridPane.getChildren().forEach(node -> {
             if (node instanceof Button) {
                 Button button = (Button) node;
-                button.setOnAction(event -> {
-                    if (selectedUnit != null && (button.getText().isEmpty() || button.getText().isBlank())) {
-                        int startRow = GridPane.getRowIndex(selectedUnit) != null ? GridPane.getRowIndex(selectedUnit) : 0;
-                        int startCol = GridPane.getColumnIndex(selectedUnit) != null ? GridPane.getColumnIndex(selectedUnit) : 0;
-                        int endRow = GridPane.getRowIndex(button) != null ? GridPane.getRowIndex(button) : 0;
-                        int endCol = GridPane.getColumnIndex(button) != null ? GridPane.getColumnIndex(button) : 0;
-
-                        if (button.getStyle().contains("-fx-background-color: #00ff00") &&
-                                isValidMove(startRow, startCol, endRow, endCol)) {
-                            button.setText(selectedUnit.getText());
-                            selectedUnit.setText("");
-                            gridPane.getChildren().forEach(n -> {
-                                if (n instanceof Button) {
-                                    n.setStyle("");
-                                }
-                            });
-                            selectedUnit = null;
-                            selectedUnidad = null;
-                        } else {
-                            System.out.println("Movimiento no válido o casilla no disponible");
-                        }
-                    }
-                });
+                button.setOnMouseClicked(e -> Control(button, e));
             }
         });
     }
 
-    private boolean isValidMove(int startRow, int startCol, int endRow, int endCol) {
-        if (selectedUnidad == null) return false;
-
-        int distance = Math.abs(endRow - startRow) + Math.abs(endCol - startCol);
-        return distance <= selectedUnidad.getMovimiento();
-    }
-
-    public void colocarUnidades() {
-        if (unidad1 != null) {
-            unidad1.setLayoutX(1);
-            unidad1.setLayoutY(1);
-            unidad1.setPrefSize(100, 100);
-        }
-        if (unidad2 != null) {
-            unidad2.setLayoutX(ancho * 100 - 100);
-            unidad2.setLayoutY(1);
-            unidad2.setPrefSize(100, 100);
-        }
-
-        if (unidad3 != null) {
-            unidad3.setLayoutX(1);
-            unidad3.setLayoutY(largo * 100 - 100);
-            unidad3.setPrefSize(100, 100);
-        }
-
-        if (unidad4 != null) {
-            unidad4.setLayoutX(ancho * 100 - 100);
-            unidad4.setLayoutY(largo * 100 - 100);
-            unidad4.setPrefSize(100, 100);
-        }
-    }
 
     private void abrirVentanaUnidades() {
         try {
@@ -105,111 +135,26 @@ public class PartidaController {
             Stage stage = new Stage();
 
             unidadesController = loader.getController();
-            if (selectedUnidad != null) {
-
+            if (selectedUnit != null) {
+                stage.setTitle("Informacion de Unidad");
+                stage.setScene(scene);
+                stage.show();
             }
 
-            stage.setTitle("Informacion");
-            stage.setScene(scene);
-            stage.show();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
-    private void marcarCasillasMovimiento(Button unit, Unidades unidad) {
-        if (gridPane == null) return;
-
-        gridPane.getChildren().forEach(node -> {
-            if (node instanceof Button) {
-                node.setStyle("");
-            }
-        });
-
-        if (selectedUnit == unit) {
-            selectedUnit = null;
-            selectedUnidad = null;
-            return;
-        }
-
-        selectedUnit = unit;
-        selectedUnidad = unidad;
-
-        int ach = (GridPane.getRowIndex(unit) == null) ? 0 : GridPane.getRowIndex(unit);
-        int col = (GridPane.getColumnIndex(unit) == null) ? 0 : GridPane.getColumnIndex(unit);
-        System.out.println(ach + " " + col);
-
-        marcarCasilla(ach - 1, col);
-        marcarCasilla(ach + 1, col);
-        marcarCasilla(ach, col - 1);
-        marcarCasilla(ach, col + 1);
-    }
-
-    private void marcarCasilla(int row, int col) {
-        if (gridPane == null) return;
-
-        gridPane.getChildren().forEach(node -> {
-            if (node instanceof Button) {
-                Integer nodeRow = GridPane.getRowIndex(node);
-                Integer nodeCol = GridPane.getColumnIndex(node);
-
-                if ((nodeRow != null && nodeRow == row) &&
-                        (nodeCol != null && nodeCol == col)) {
-                    node.setStyle("-fx-background-color: #00ff00;");
-                }
-            }
-        });
-    }
-
-    @FXML
-    public void initialize() {
-        ProgramaTablero.Matematico mat = new ProgramaTablero.Matematico();
-        ProgramaTablero.Filosofo fil = new ProgramaTablero.Filosofo();
-        ProgramaTablero.Medico med = new ProgramaTablero.Medico();
-        ProgramaTablero.Historiador his = new ProgramaTablero.Historiador();
-
-        if (unidad1 != null) {
-            unidad1.setOnAction(event -> {
-                marcarCasillasMovimiento(unidad1, mat);
-                abrirVentanaUnidades();
-            });
-            unidad1.setText("MAT");
-        }
-
-        if (unidad2 != null) {
-            unidad2.setOnAction(event -> {
-                marcarCasillasMovimiento(unidad2, fil);
-                abrirVentanaUnidades();
-            });
-            unidad2.setText("FIL");
-        }
-
-        if (unidad3 != null) {
-            unidad3.setOnAction(event -> {
-                marcarCasillasMovimiento(unidad3, med);
-                abrirVentanaUnidades();
-            });
-            unidad3.setText("MED");
-        }
-
-        if (unidad4 != null) {
-            unidad4.setOnAction(event -> {
-                marcarCasillasMovimiento(unidad4, his);
-                abrirVentanaUnidades();
-            });
-            unidad4.setText("HIS");
-        }
-
-        colocarUnidades();
-    }
 }
+
+    
 
 
     class ProgramaTablero {
         private static int rondas = 0;
 
         protected class Tablero {
-            private example.proyectofinal.TableroController ancho;
+            private TableroController ancho;
             private TableroController largo;
             private Casilla[][] casillas;
             private int largo1;
@@ -228,6 +173,7 @@ public class PartidaController {
                     }
                 }
             }
+
             protected Casilla obtenerCasilla(int fila, int columna) {
                 if (fila >= 0 && fila < largo1 && columna >= 0 && columna < ancho1) {
                     return casillas[fila][columna];
@@ -685,4 +631,5 @@ public class PartidaController {
             }
         }
     }
+
 

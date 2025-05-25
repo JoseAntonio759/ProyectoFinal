@@ -38,7 +38,6 @@ public class UnidadesController {
                 btn.setOnAction(e -> manejarClick(f, c));
 
                 botones[fila][col] = btn;
-                actualizarBoton(fila, col);
             }
         }
     }
@@ -47,17 +46,9 @@ public class UnidadesController {
         Casilla casilla = tablero.getCasilla(fila, col);
         if (casilla.estaOcupada()) {
             Unidades u = casilla.getUnidad();
-            System.out.println("Unidad: " + u.getNombre() + " | HP: " + u.getHp() + " | Daño: " + u.getDaño() +
-                             " | Movimiento: " + u.getMovimiento() + " | Rango: " + u.getRango_ataque());
-        } else {
-            System.out.println("Casilla vacía");
         }
     }
 
-    private void actualizarBoton(int fila, int col) {
-        Unidades u = tablero.getCasilla(fila, col).getUnidad();
-        botones[fila][col].setText((u != null) ? String.valueOf(u.getNombre().charAt(0)) : " ");
-    }
 
     @FXML
     private void clickSalir() {

@@ -17,12 +17,12 @@ public class IAController {
         System.out.println("aaaa" + ancho + "bbbb" + largo);
     }
 
-    example.proyectofinal.IA.Grafo grafo = new Grafo();
+    Grafo<String> grafo = new Grafo();
     private ArrayList<Unidades> unidades = new ArrayList<>();
 
 
     public void generarMapa() {
-        example.proyectofinal.IA.Vertice<String>[][] vertices = new example.proyectofinal.IA.Vertice[ancho][largo];
+        Vertice<String>[][] vertices = new Vertice[ancho][largo];
 
         for (int filas = 0; filas < ancho; filas++) {
             for (int columnas = 0; columnas < largo; columnas++) {
@@ -34,7 +34,7 @@ public class IAController {
         for (int filas = 0; filas < ancho; filas++) {
             for (int columnas = 0; columnas < largo; columnas++) {
                 if (filas + 1 < ancho) {
-                    grafo.addArista(new example.proyectofinal.IA.Arista<>(vertices[filas][columnas], vertices[filas + 1][columnas], 1));
+                    grafo.addArista(new Arista<>(vertices[filas][columnas], vertices[filas + 1][columnas], 1));
                 }
                 if (columnas + 1 < largo) {
                     grafo.addArista(new Arista<>(vertices[filas][columnas], vertices[filas][columnas + 1], 1));
