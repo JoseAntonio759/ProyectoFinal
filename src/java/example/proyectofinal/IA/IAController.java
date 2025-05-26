@@ -5,7 +5,6 @@ import example.proyectofinal.IA.Grafo;
 import example.proyectofinal.IA.Vertice;
 import example.proyectofinal.Unidades;
 
-import java.util.ArrayList;
 
 public class IAController {
     private int ancho;
@@ -17,9 +16,8 @@ public class IAController {
         System.out.println("aaaa" + ancho + "bbbb" + largo);
     }
 
-    Grafo<String> grafo = new Grafo();
-    private ArrayList<Unidades> unidades = new ArrayList<>();
-
+    Grafo<String> grafo = new Grafo<>();
+    private Lista<Unidades> unidades = new ListaBasica<>();
 
     public void generarMapa() {
         Vertice<String>[][] vertices = new Vertice[ancho][largo];
@@ -43,12 +41,13 @@ public class IAController {
         }
     }
 
-
     private Unidades encontrarEnemigoMasCercano(Unidades unidad) {
         Unidades enemigoMasCercano = null;
         int distanciaMinima = Integer.MAX_VALUE;
 
-        for (Unidades enemigo : unidades) {
+        Iterador<Unidades> iterador = unidades.getIterador();
+        while (iterador.hasNext()) {
+            Unidades enemigo = iterador.next();
             if (!enemigo.getFaccion().equals(unidad.getFaccion())) {
                 int distancia = calcularDistancia(unidad, enemigo);
                 if (distancia < distanciaMinima) {
@@ -66,7 +65,9 @@ public class IAController {
     }
 
     public void turno() {
-        for (Unidades unidad : unidades) {
+        Iterador<Unidades> iterador = unidades.getIterador();
+        while (iterador.hasNext()) {
+            Unidades unidad = iterador.next();
             Unidades enemigoMasCercano = encontrarEnemigoMasCercano(unidad);
             if (enemigoMasCercano != null) {
                 int distancia = calcularDistancia(unidad, enemigoMasCercano);
@@ -85,4 +86,3 @@ public class IAController {
         }
     }
 }
-
