@@ -87,78 +87,46 @@ public class PartidaController {
         String faccionTurno = (contadorTurnos % 2 == 0) ? "Ciencias" : "Letras";
 
         if (selectedUnit == null) {
-            if (!button.getText().isEmpty()
-                    && !button.getText().equals("+1MOV")
-                    && !button.getText().equals("-1MOV")
-                    && !button.getText().equals("+1ATQ")
-                    && !button.getText().equals("-1ATQ")
-                    && !button.getText().equals("+1HP")
-                    && !button.getText().equals("-1HP")) {
-
-                Unidades tempUnidad = null;
-                if (button.getText().equals("MAT")) tempUnidad = matematico;
-                if (button.getText().equals("MED")) tempUnidad = medico;
-                if (button.getText().equals("POE")) tempUnidad = poeta;
-                if (button.getText().equals("HIS")) tempUnidad = historiador;
-
-                if (tempUnidad != null && tempUnidad.getFaccion().equals(faccionTurno)) {
-                    selectedUnit = button;
-                    selectedUnidad = tempUnidad;
-                    marcarCasillasMovimientoPosibles(button);
-                    if (event.getClickCount() == 2) {
-                        abrirVentanaUnidades();
-                    }
+            if (button.getUserData() instanceof Unidades tempUnidad && tempUnidad.getFaccion().equals(faccionTurno)) {
+                selectedUnit = button;
+                selectedUnidad = tempUnidad;
+                marcarCasillasMovimientoPosibles(button);
+                if (event.getClickCount() == 2) {
+                    abrirVentanaUnidades();
                 }
             }
         } else {
-            if (button.getStyle().contains("-fx-background-color: #ff0000")) {
-                Unidades targetUnidad = null;
-                if (button.getText().equals("MAT")) {
-                    targetUnidad = matematico;
-                } else if (button.getText().equals("MED")) {
-                    targetUnidad = medico;
-                } else if (button.getText().equals("POE")) {
-                    targetUnidad = poeta;
-                } else if (button.getText().equals("HIS")) {
-                    targetUnidad = historiador;
+            if (button.getStyle().contains("-fx-background-color: #ff0000") && button.getUserData() instanceof Unidades targetUnidad) {
+                targetUnidad.setHp(targetUnidad.getHp() - selectedUnidad.getDaño());
+                if (targetUnidad.getHp() <= 0) {
+                    button.setText("");
+                    button.setUserData(null);
+                    button.setStyle("");
                 }
-
-                if (targetUnidad != null) {
-                    targetUnidad.setHp(targetUnidad.getHp() - selectedUnidad.getDaño());
-                    if (targetUnidad.getHp() <= 0) {
-                        button.setText("");
-                        button.setStyle("");
-                    }
-                    selectedUnit = null;
-                    selectedUnidad = null;
-                    contadorTurnos++;
-                    Turnos.setText("Turno: " + contadorTurnos);
-                    aparicionPersonaje();
-                    limpiarMarcas();
-                    contarUnidades();
-                }
+                selectedUnit = null;
+                selectedUnidad = null;
+                contadorTurnos++;
+                Turnos.setText("Turno: " + contadorTurnos);
+                aparicionPersonaje();
+                limpiarMarcas();
+                contarUnidades();
                 return;
             }
 
             if (button.getStyle().contains("-fx-background-color: #00ff00") || button.getStyle().contains("-fx-background-color: #ffff00")) {
                 String powerUp = button.getText();
                 button.setText(selectedUnit.getText());
+                button.setUserData(selectedUnit.getUserData());
                 selectedUnit.setText("");
+                selectedUnit.setUserData(null);
                 limpiarMarcas();
 
-                if (powerUp.equals("+1ATQ")) {
-                    selectedUnidad.setDaño(selectedUnidad.getDaño() + 1);
-                } else if (powerUp.equals("-1ATQ")) {
-                    selectedUnidad.setDaño(selectedUnidad.getDaño() - 1);
-                } else if (powerUp.equals("+1HP")) {
-                    selectedUnidad.setHp(selectedUnidad.getHp() + 1);
-                } else if (powerUp.equals("-1HP")) {
-                    selectedUnidad.setHp(selectedUnidad.getHp() - 1);
-                } else if (powerUp.equals("+1MOV")) {
-                    selectedUnidad.setMovimiento(selectedUnidad.getMovimiento() + 1);
-                } else if (powerUp.equals("-1MOV")) {
-                    selectedUnidad.setMovimiento(selectedUnidad.getMovimiento() - 1);
-                }
+                if (powerUp.equals("+1ATQ")) selectedUnidad.setDaño(selectedUnidad.getDaño() + 1);
+                else if (powerUp.equals("-1ATQ")) selectedUnidad.setDaño(selectedUnidad.getDaño() - 1);
+                else if (powerUp.equals("+1HP")) selectedUnidad.setHp(selectedUnidad.getHp() + 1);
+                else if (powerUp.equals("-1HP")) selectedUnidad.setHp(selectedUnidad.getHp() - 1);
+                else if (powerUp.equals("+1MOV")) selectedUnidad.setMovimiento(selectedUnidad.getMovimiento() + 1);
+                else if (powerUp.equals("-1MOV")) selectedUnidad.setMovimiento(selectedUnidad.getMovimiento() - 1);
 
                 selectedUnit = null;
                 selectedUnidad = null;
@@ -166,27 +134,12 @@ public class PartidaController {
                 Turnos.setText("Turno: " + contadorTurnos);
                 aparicionPersonaje();
                 contarUnidades();
-            } else if (!button.getText().isEmpty()
-                    && !button.getText().equals("+1MOV")
-                    && !button.getText().equals("-1MOV")
-                    && !button.getText().equals("+1ATQ")
-                    && !button.getText().equals("-1ATQ")
-                    && !button.getText().equals("+1HP")
-                    && !button.getText().equals("-1HP")) {
-
-                Unidades tempUnidad = null;
-                if (button.getText().equals("MAT")) tempUnidad = matematico;
-                if (button.getText().equals("MED")) tempUnidad = medico;
-                if (button.getText().equals("POE")) tempUnidad = poeta;
-                if (button.getText().equals("HIS")) tempUnidad = historiador;
-
-                if (tempUnidad != null && tempUnidad.getFaccion().equals(faccionTurno)) {
-                    selectedUnit = button;
-                    selectedUnidad = tempUnidad;
-                    marcarCasillasMovimientoPosibles(button);
-                    if (event.getClickCount() == 2) {
-                        abrirVentanaUnidades();
-                    }
+            } else if (button.getUserData() instanceof Unidades tempUnidad && tempUnidad.getFaccion().equals(faccionTurno)) {
+                selectedUnit = button;
+                selectedUnidad = tempUnidad;
+                marcarCasillasMovimientoPosibles(button);
+                if (event.getClickCount() == 2) {
+                    abrirVentanaUnidades();
                 }
             }
         }
@@ -224,25 +177,23 @@ public class PartidaController {
         if (row >= 0 && row < largo && col >= 0 && col < ancho) {
             Button targetButton = getButtonAt(row, col);
             if (targetButton != null) {
-                if (targetButton.getText().equals("+1MOV") ||
-                        targetButton.getText().equals("-1MOV") ||
-                        targetButton.getText().equals("+1ATQ") ||
-                        targetButton.getText().equals("-1ATQ") ||
-                        targetButton.getText().equals("+1HP") ||
-                        targetButton.getText().equals("-1HP")) {
+                String texto = targetButton.getText();
+                if (texto.equals("+1MOV") || texto.equals("-1MOV") ||
+                        texto.equals("+1ATQ") || texto.equals("-1ATQ") ||
+                        texto.equals("+1HP") || texto.equals("-1HP")) {
                     targetButton.setStyle("-fx-background-color: #ffff00;");
-                } else if (targetButton.getText().isEmpty()) {
+                } else if (texto.isEmpty()) {
                     targetButton.setStyle("-fx-background-color: #00ff00;");
-                } else if (targetButton.getText().equals("MAT") ||
-                        targetButton.getText().equals("MED") ||
-                        targetButton.getText().equals("POE") ||
-                        targetButton.getText().equals("HIS")) {
-                    targetButton.setStyle("-fx-background-color: #ff0000;");
+                } else {
+                    if (targetButton.getUserData() instanceof Unidades targetUnidad) {
+                        if (!targetUnidad.getFaccion().equals(selectedUnidad.getFaccion())) {
+                            targetButton.setStyle("-fx-background-color: #ff0000;");
+                        }
+                    }
                 }
             }
         }
     }
-
     private Button getButtonAt(int row, int col) {
         for (Node node : gridPane.getChildren()) {
             if (node instanceof Button &&
@@ -293,6 +244,141 @@ public class PartidaController {
             e.printStackTrace();
         }
     }
+    private int contarMatematicos() {
+        int contador = 0;
+
+        for (Node node : gridPane.getChildren()) {
+            if (node instanceof Button boton) {
+                String texto = boton.getText();
+                if ("MAT".equals(texto)) {
+                    contador++;
+                }
+            }
+        }
+
+        return contador;
+    }
+    private int contarMedicos() {
+        int contador = 0;
+
+        for (Node node : gridPane.getChildren()) {
+            if (node instanceof Button boton) {
+                String texto = boton.getText();
+                if ("MED".equals(texto)) {
+                    contador++;
+                }
+            }
+        } return contador;
+    }
+    private int contarPoetas() {
+        int contador = 0;
+
+        for (Node node : gridPane.getChildren()) {
+            if (node instanceof Button boton) {
+                String texto = boton.getText();
+                if ("POE".equals(texto)) {
+                    contador++;
+                }
+            }
+        } return contador;
+    }
+    private int contarHistoriadores() {
+        int contador = 0;
+
+        for (Node node : gridPane.getChildren()) {
+            if (node instanceof Button boton) {
+                String texto = boton.getText();
+                if ("HIS".equals(texto)) {
+                    contador++;
+                }
+            }
+        } return contador;
+    }
+    private int contarArquitectos() {
+        int contador = 0;
+
+        for (Node node : gridPane.getChildren()) {
+            if (node instanceof Button boton) {
+                String texto = boton.getText();
+                if ("ARQ".equals(texto)) {
+                    contador++;
+                }
+            }
+        } return contador;
+    }
+    private int contarFisicos() {
+        int contador = 0;
+
+        for (Node node : gridPane.getChildren()) {
+            if (node instanceof Button boton) {
+                String texto = boton.getText();
+                if ("FIS".equals(texto)) {
+                    contador++;
+                }
+            }
+        } return contador;
+    }
+    private int contarIngenieros() {
+        int contador = 0;
+
+        for (Node node : gridPane.getChildren()) {
+            if (node instanceof Button boton) {
+                String texto = boton.getText();
+                if ("ING".equals(texto)) {
+                    contador++;
+                }
+            }
+        } return contador;
+    }
+    private int contarFilosofos() {
+        int contador = 0;
+
+        for (Node node : gridPane.getChildren()) {
+            if (node instanceof Button boton) {
+                String texto = boton.getText();
+                if ("FIL".equals(texto)) {
+                    contador++;
+                }
+            }
+        }
+        return contador;}
+    private int contarPeriodistas() {
+        int contador = 0;
+
+        for (Node node : gridPane.getChildren()) {
+            if (node instanceof Button boton) {
+                String texto = boton.getText();
+                if ("PER".equals(texto)) {
+                    contador++;
+                }
+            }
+        }
+        return contador;}
+    private int contarFilologo() {
+        int contador = 0;
+
+        for (Node node : gridPane.getChildren()) {
+            if (node instanceof Button boton) {
+                String texto = boton.getText();
+                if ("FI".equals(texto)) {
+                    contador++;
+                }
+            }
+        }
+        return contador;}
+    private int contarPoeta(){
+        int contador = 0;
+
+        for (Node node : gridPane.getChildren()) {
+            if (node instanceof Button boton) {
+                String texto = boton.getText();
+                if ("POE".equals(texto)) {
+                    contador++;
+                }
+            }
+        }
+        return contador;}
+
     private void aparicionPersonaje() {
         if (contadorTurnos == 0) return;
 
@@ -307,35 +393,35 @@ public class PartidaController {
 
         if (target != null && target.getText().isEmpty()) {
             int tipo = (int) (Math.random() * 5);
-            Unidades nuevaUnidad;
+            Unidades nuevaUnidad = null;
             String texto;
 
             if (contadorTurnos % 2 == 0) {
                 // Turno de Ciencias
                 switch (tipo) {
-                    case 0 -> { nuevaUnidad = new ProgramaTablero.Matematico(); texto = "MAT"; }
-                    case 1 -> { nuevaUnidad = new ProgramaTablero.Ingeniero(); texto = "ING"; }
-                    case 2 -> { nuevaUnidad = new ProgramaTablero.Fisico(); texto = "FIS"; }
-                    case 3 -> { nuevaUnidad = new ProgramaTablero.Medico(); texto = "MED"; }
-                    case 4 -> { nuevaUnidad = new ProgramaTablero.Arquitecto(); texto = "ARQ"; }
-                    default -> { nuevaUnidad = new ProgramaTablero.Matematico(); texto = "MAT"; }
+                    case 0 -> { if (contarMatematicos()<1) nuevaUnidad = new ProgramaTablero.Matematico(); texto = "MAT";}
+                    case 1 -> { if (contarIngenieros()<1)nuevaUnidad = new ProgramaTablero.Ingeniero(); texto = "ING"; }
+                    case 2 -> { if (contarFisicos()<1) nuevaUnidad = new ProgramaTablero.Fisico(); texto = "FIS"; }
+                    case 3 -> { if (contarMedicos()<1)nuevaUnidad = new ProgramaTablero.Medico(); texto = "MED"; }
+                    case 4 -> { if (contarArquitectos()<1)nuevaUnidad = new ProgramaTablero.Arquitecto(); texto = "ARQ"; }
+                    default -> { if (contarMatematicos()<1)nuevaUnidad = new ProgramaTablero.Matematico(); texto = "MAT"; }
                 }
             } else {
                 // Turno de Letras
                 switch (tipo) {
-                    case 0 -> { nuevaUnidad = new ProgramaTablero.Historiador(); texto = "HIS"; }
-                    case 1 -> { nuevaUnidad = new ProgramaTablero.Filosofo(); texto = "FIL"; }
-                    case 2 -> { nuevaUnidad = new ProgramaTablero.Poeta(); texto = "POE"; }
-                    case 3 -> { nuevaUnidad = new ProgramaTablero.Periodista(); texto = "PER"; }
-                    case 4 -> { nuevaUnidad = new ProgramaTablero.Filologo(); texto = "FILO"; }
-                    default -> { nuevaUnidad = new ProgramaTablero.Historiador(); texto = "HIS"; }
+                    case 0 -> { if (contarHistoriadores()<1)nuevaUnidad = new ProgramaTablero.Historiador(); texto = "HIS"; }
+                    case 1 -> { if (contarFilosofos()<1) nuevaUnidad = new ProgramaTablero.Filosofo(); texto = "FIL"; }
+                    case 2 -> {  if (contarPoeta()<1)nuevaUnidad = new ProgramaTablero.Poeta(); texto = "POE"; }
+                    case 3 -> {  if (contarPeriodistas()<1)nuevaUnidad = new ProgramaTablero.Periodista(); texto = "PER"; }
+                    case 4 -> { if (contarFilologo()<1) nuevaUnidad = new ProgramaTablero.Filologo(); texto = "FI"; }
+                    default -> { if (contarHistoriadores()<1) nuevaUnidad = new ProgramaTablero.Historiador(); texto = "HIS"; }
                 }
             }
 
             nuevaUnidad.setPosicion(fila, columna);
             target.setText(texto);
             target.setUserData(nuevaUnidad);
-            System.out.println("¡Unidad nueva añadida en (" + fila + "," + columna + "): " + texto + "!");
+
         }
     }
 
