@@ -87,12 +87,13 @@ public class PartidaController {
         String faccionTurno = (contadorTurnos % 2 == 0) ? "Ciencias" : "Letras";
 
         if (selectedUnit == null) {
-            if (!button.getText().isEmpty() && !button.getText().equals("+1 MOV")
-                    && !button.getText().equals("-1 MOV")
-                    && !button.getText().equals("+1 ATQ")
-                    && !button.getText().equals("-1 ATQ")
-                    && !button.getText().equals("+1 HP")
-                    && !button.getText().equals("-1 HP")) {
+            if (!button.getText().isEmpty()
+                    && !button.getText().equals("+1MOV")
+                    && !button.getText().equals("-1MOV")
+                    && !button.getText().equals("+1ATQ")
+                    && !button.getText().equals("-1ATQ")
+                    && !button.getText().equals("+1HP")
+                    && !button.getText().equals("-1HP")) {
 
                 Unidades tempUnidad = null;
                 if (button.getText().equals("MAT")) tempUnidad = matematico;
@@ -144,17 +145,17 @@ public class PartidaController {
                 selectedUnit.setText("");
                 limpiarMarcas();
 
-                if (powerUp.equals("+1 ATQ")) {
+                if (powerUp.equals("+1ATQ")) {
                     selectedUnidad.setDaño(selectedUnidad.getDaño() + 1);
-                } else if (powerUp.equals("-1 ATQ")) {
+                } else if (powerUp.equals("-1ATQ")) {
                     selectedUnidad.setDaño(selectedUnidad.getDaño() - 1);
-                } else if (powerUp.equals("+1 HP")) {
+                } else if (powerUp.equals("+1HP")) {
                     selectedUnidad.setHp(selectedUnidad.getHp() + 1);
-                } else if (powerUp.equals("-1 HP")) {
+                } else if (powerUp.equals("-1HP")) {
                     selectedUnidad.setHp(selectedUnidad.getHp() - 1);
-                } else if (powerUp.equals("+1 MOV")) {
+                } else if (powerUp.equals("+1MOV")) {
                     selectedUnidad.setMovimiento(selectedUnidad.getMovimiento() + 1);
-                } else if (powerUp.equals("-1 MOV")) {
+                } else if (powerUp.equals("-1MOV")) {
                     selectedUnidad.setMovimiento(selectedUnidad.getMovimiento() - 1);
                 }
 
@@ -164,12 +165,12 @@ public class PartidaController {
                 Turnos.setText("Turno: " + contadorTurnos);
                 contarUnidades();
             } else if (!button.getText().isEmpty()
-                    && !button.getText().equals("+1 MOV")
-                    && !button.getText().equals("-1 MOV")
-                    && !button.getText().equals("+1 ATQ")
-                    && !button.getText().equals("-1 ATQ")
-                    && !button.getText().equals("+1 HP")
-                    && !button.getText().equals("-1 HP")) {
+                    && !button.getText().equals("+1MOV")
+                    && !button.getText().equals("-1MOV")
+                    && !button.getText().equals("+1ATQ")
+                    && !button.getText().equals("-1ATQ")
+                    && !button.getText().equals("+1HP")
+                    && !button.getText().equals("-1HP")) {
 
                 Unidades tempUnidad = null;
                 if (button.getText().equals("MAT")) tempUnidad = matematico;
@@ -221,12 +222,12 @@ public class PartidaController {
         if (row >= 0 && row < largo && col >= 0 && col < ancho) {
             Button targetButton = getButtonAt(row, col);
             if (targetButton != null) {
-                if (targetButton.getText().equals("+1 MOV") ||
-                        targetButton.getText().equals("-1 MOV") ||
-                        targetButton.getText().equals("+1 ATQ") ||
-                        targetButton.getText().equals("-1 ATQ") ||
-                        targetButton.getText().equals("+1 HP") ||
-                        targetButton.getText().equals("-1 HP")) {
+                if (targetButton.getText().equals("+1MOV") ||
+                        targetButton.getText().equals("-1MOV") ||
+                        targetButton.getText().equals("+1ATQ") ||
+                        targetButton.getText().equals("-1ATQ") ||
+                        targetButton.getText().equals("+1HP") ||
+                        targetButton.getText().equals("-1HP")) {
                     targetButton.setStyle("-fx-background-color: #ffff00;");
                 } else if (targetButton.getText().isEmpty()) {
                     targetButton.setStyle("-fx-background-color: #00ff00;");
