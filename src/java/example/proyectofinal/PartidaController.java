@@ -133,6 +133,7 @@ public class PartidaController {
                     selectedUnidad = null;
                     contadorTurnos++;
                     Turnos.setText("Turno: " + contadorTurnos);
+                    aparicionPersonaje();
                     limpiarMarcas();
                     contarUnidades();
                 }
@@ -163,6 +164,7 @@ public class PartidaController {
                 selectedUnidad = null;
                 contadorTurnos++;
                 Turnos.setText("Turno: " + contadorTurnos);
+                aparicionPersonaje();
                 contarUnidades();
             } else if (!button.getText().isEmpty()
                     && !button.getText().equals("+1MOV")
@@ -291,6 +293,52 @@ public class PartidaController {
             e.printStackTrace();
         }
     }
+    private void aparicionPersonaje() {
+        if (contadorTurnos == 0) return;
+
+        int probabilidad = Math.max(10, 100 / contadorTurnos);
+        int random = (int) (Math.random() * 100);
+        if (random >= probabilidad) return;
+
+        int fila = (int) (Math.random() * ancho);
+        int columna = (int) (Math.random() * largo);
+
+        Button target = getButtonAt(fila, columna);
+
+        if (target != null && target.getText().isEmpty()) {
+            int tipo = (int) (Math.random() * 5);
+            Unidades nuevaUnidad;
+            String texto;
+
+            if (contadorTurnos % 2 == 0) {
+                // Turno de Ciencias
+                switch (tipo) {
+                    case 0 -> { nuevaUnidad = new ProgramaTablero.Matematico(); texto = "MAT"; }
+                    case 1 -> { nuevaUnidad = new ProgramaTablero.Ingeniero(); texto = "ING"; }
+                    case 2 -> { nuevaUnidad = new ProgramaTablero.Fisico(); texto = "FIS"; }
+                    case 3 -> { nuevaUnidad = new ProgramaTablero.Medico(); texto = "MED"; }
+                    case 4 -> { nuevaUnidad = new ProgramaTablero.Arquitecto(); texto = "ARQ"; }
+                    default -> { nuevaUnidad = new ProgramaTablero.Matematico(); texto = "MAT"; }
+                }
+            } else {
+                // Turno de Letras
+                switch (tipo) {
+                    case 0 -> { nuevaUnidad = new ProgramaTablero.Historiador(); texto = "HIS"; }
+                    case 1 -> { nuevaUnidad = new ProgramaTablero.Filosofo(); texto = "FIL"; }
+                    case 2 -> { nuevaUnidad = new ProgramaTablero.Poeta(); texto = "POE"; }
+                    case 3 -> { nuevaUnidad = new ProgramaTablero.Periodista(); texto = "PER"; }
+                    case 4 -> { nuevaUnidad = new ProgramaTablero.Filologo(); texto = "FILO"; }
+                    default -> { nuevaUnidad = new ProgramaTablero.Historiador(); texto = "HIS"; }
+                }
+            }
+
+            nuevaUnidad.setPosicion(fila, columna);
+            target.setText(texto);
+            target.setUserData(nuevaUnidad);
+            System.out.println("¡Unidad nueva añadida en (" + fila + "," + columna + "): " + texto + "!");
+        }
+    }
+
 }
 
 
