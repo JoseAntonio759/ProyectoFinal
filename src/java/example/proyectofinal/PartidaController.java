@@ -103,7 +103,6 @@ public class PartidaController {
                 if (tempUnidad != null && tempUnidad.getFaccion().equals(faccionTurno)) {
                     selectedUnit = button;
                     selectedUnidad = tempUnidad;
-                    System.out.println(selectedUnidad.getStats());
                     marcarCasillasMovimientoPosibles(button);
                     if (event.getClickCount() == 2) {
                         abrirVentanaUnidades();
@@ -181,7 +180,6 @@ public class PartidaController {
                 if (tempUnidad != null && tempUnidad.getFaccion().equals(faccionTurno)) {
                     selectedUnit = button;
                     selectedUnidad = tempUnidad;
-                    System.out.println(selectedUnidad.getStats());
                     marcarCasillasMovimientoPosibles(button);
                     if (event.getClickCount() == 2) {
                         abrirVentanaUnidades();
@@ -285,6 +283,7 @@ public class PartidaController {
                 stage.setTitle("Informacion de Unidad");
                 stage.setScene(scene);
                 stage.show();
+                unidadesController.showStats(selectedUnidad);
             }
 
         } catch (Exception e) {

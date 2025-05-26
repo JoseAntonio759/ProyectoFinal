@@ -64,7 +64,13 @@ public class UnidadesController {
             movimiento.setText("Movimiento: --");
         }
     }
+    public void showStats(Unidades u) {
+        hp.setText("HP: " + u.getHp());
+        daño.setText("Daño: " + u.getDaño());
+        nombre.setText("Nombre: " + u.getNombre());
+        movimiento.setText("Movimiento: " + u.getMovimiento());
 
+    }
     @FXML
     private void clickSalir() {
         Stage ventanaActual = (Stage) salir.getScene().getWindow();

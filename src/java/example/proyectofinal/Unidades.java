@@ -19,6 +19,7 @@ public abstract class Unidades {
         this.daño = daño;
         this.movimiento=movimiento;
         this.faccion=faccion;
+        this.rango_ataque=rango_ataque;
     }
 
 
