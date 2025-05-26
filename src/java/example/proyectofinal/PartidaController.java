@@ -62,7 +62,7 @@ public class PartidaController {
             }
         }
     }
-
+//comentario para commit
     private void marcarCasillasMovimientoPosibles(Button unit) {
         limpiarMarcas();
 
