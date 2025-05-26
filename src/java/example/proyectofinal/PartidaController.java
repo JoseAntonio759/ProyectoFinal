@@ -1,5 +1,6 @@
 package example.proyectofinal;
 
+import example.proyectofinal.IA.IAController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -7,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.scene.input.MouseEvent;
+
 
 public class PartidaController {
 
@@ -17,6 +19,8 @@ public class PartidaController {
     private Button selectedUnit;
     private Unidades selectedUnidad;
     private UnidadesController unidadesController;
+    private ProgramaTablero programaTablero = new ProgramaTablero();
+
 
     public void setDimensiones(int ancho, int largo) {
         this.ancho = ancho;
@@ -53,6 +57,8 @@ public class PartidaController {
                 selectedUnit.setText("");
                 limpiarMarcas();
                 selectedUnit = null;
+                ProgramaTablero.incRondas();
+                programaTablero.IA();
             } else if (!button.getText().isEmpty() && !(button.getText().length()>3)) {
                 selectedUnit = button;
                 marcarCasillasMovimientoPosibles(button);
@@ -81,7 +87,7 @@ public class PartidaController {
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
                 if (!(i == 0 && j == 0)) {
-                    marcarCasillaValida(row + i, col + j); 
+                    marcarCasillaValida(row + i, col + j);
                 }
             }
         }
@@ -90,8 +96,14 @@ public class PartidaController {
     private void marcarCasillaValida(int row, int col) {
         if (row >= 0 && row < largo && col >= 0 && col < ancho) {
             Button targetButton = getButtonAt(row, col);
-            if (targetButton != null && targetButton.getText().isEmpty()) {
-                targetButton.setStyle("-fx-background-color: #00ff00;");
+            if (targetButton != null) {
+                boolean esDestinoVacio = targetButton.getText().isEmpty();
+                boolean puedeMover = selectedUnit != null
+                        && selectedUnit.getText().length() <= 3
+                        && targetButton.getText().length() > 3;
+                if (esDestinoVacio || puedeMover) {
+                    targetButton.setStyle("-fx-background-color: #00ff00;");
+                }
             }
         }
     }
@@ -149,13 +161,14 @@ public class PartidaController {
         }
     }
     private Unidades traductorUnidades(Button button) {
-        if (button.getText()== "MAT"){Unidades unidad = new ProgramaTablero.Matematico();
+        ProgramaTablero programaTablero = new ProgramaTablero();
+        if (button.getText()== "MAT"){Unidades unidad = new ProgramaTablero().new Matematico();
         return unidad;}
-        if (button.getText()== "HIS"){Unidades unidad = new ProgramaTablero.Historiador();
+        if (button.getText()== "HIS"){Unidades unidad = new ProgramaTablero().new Historiador();
         return unidad;}
-        if (button.getText()== "POE"){Unidades unidad = new ProgramaTablero.Poeta();
+        if (button.getText()== "POE"){Unidades unidad = new ProgramaTablero().new Poeta();
         return unidad;}
-        if (button.getText()== "MED"){Unidades unidad = new ProgramaTablero.Medico();
+        if (button.getText()== "MED"){Unidades unidad = new ProgramaTablero().new Medico();
         return unidad;}
         else return null;
     }
@@ -166,6 +179,10 @@ public class PartidaController {
 
     class ProgramaTablero {
         private static int rondas = 0;
+        IAController ia = new IAController();
+        protected static void incRondas() {
+            rondas++;
+        }
 
         protected class Tablero {
             private TableroController ancho;
@@ -212,7 +229,7 @@ public class PartidaController {
             }
         }
 
-        protected static class Matematico extends Unidades {
+        protected class Matematico extends Unidades {
             protected Matematico() {
                 super("Matematico", 90, 21, 2, 3, "Ciencias");
             }
@@ -242,13 +259,14 @@ public class PartidaController {
                 if (super.ataque(unidadAtaque, unidadDefensa) == true) {
                     rondas++;
                     aparicion_personaje();
+                    IA();
                     return true;
                 }
                 return false;
             }
         }
 
-        protected static class Ingeniero extends Unidades {
+        protected class Ingeniero extends Unidades {
             protected Ingeniero() {
                 super("Ingeniero", 70, 32, 4, 1, "Ciencias");
             }
@@ -278,13 +296,14 @@ public class PartidaController {
                 if (super.ataque(unidadAtaque, unidadDefensa) == true) {
                     rondas++;
                     aparicion_personaje();
+                    IA();
                     return true;
                 }
                 return false;
             }
         }
 
-        protected static class Medico extends Unidades {
+        protected class Medico extends Unidades {
             protected Medico() {
                 super("Medico", 120, 17, 2, 3, "Ciencias");
             }
@@ -314,13 +333,14 @@ public class PartidaController {
                 if (super.ataque(unidadAtaque, unidadDefensa) == true) {
                     rondas++;
                     aparicion_personaje();
+                    IA();
                     return true;
                 }
                 return false;
             }
         }
 
-        protected static class Arquitecto extends Unidades {
+        protected class Arquitecto extends Unidades {
             protected Arquitecto() {
                 super("Arquitecto", 80, 27, 3, 2, "Ciencias");
             }
@@ -350,13 +370,14 @@ public class PartidaController {
                 if (super.ataque(unidadAtaque, unidadDefensa) == true) {
                     rondas++;
                     aparicion_personaje();
+                    IA();
                     return true;
                 }
                 return false;
             }
         }
 
-        protected static class Fisico extends Unidades {
+        protected class Fisico extends Unidades {
             protected Fisico() {
                 super("Fisico", 100, 15, 1, 1, "Ciencias");
             }
@@ -386,13 +407,14 @@ public class PartidaController {
                 if (super.ataque(unidadAtaque, unidadDefensa) == true) {
                     rondas++;
                     aparicion_personaje();
+                    IA();
                     return true;
                 }
                 return false;
             }
         }
 
-        protected static class Filologo extends Unidades {
+        protected class Filologo extends Unidades {
             protected Filologo() {
                 super("Filologo", 80, 27, 3, 2, "Letras");
             }
@@ -422,13 +444,14 @@ public class PartidaController {
                 if (super.ataque(unidadAtaque, unidadDefensa) == true) {
                     rondas++;
                     aparicion_personaje();
+                    IA();
                     return true;
                 }
                 return false;
             }
         }
 
-        protected static class Poeta extends Unidades {
+        protected class Poeta extends Unidades {
             protected Poeta() {
                 super("Poeta", 75, 22, 3, 4, "Letras");
             }
@@ -458,13 +481,14 @@ public class PartidaController {
                 if (super.ataque(unidadAtaque, unidadDefensa) == true) {
                     rondas++;
                     aparicion_personaje();
+                    IA();
                     return true;
                 }
                 return false;
             }
         }
 
-        protected static class Historiador extends Unidades {
+        protected class Historiador extends Unidades {
             protected Historiador() {
                 super("Historiador", 120, 17, 2, 2, "Letras");
             }
@@ -494,13 +518,14 @@ public class PartidaController {
                 if (super.ataque(unidadAtaque, unidadDefensa) == true) {
                     rondas++;
                     aparicion_personaje();
+                    IA();
                     return true;
                 }
                 return false;
             }
         }
 
-        protected static class Periodista extends Unidades {
+        protected class Periodista extends Unidades {
             protected Periodista() {
                 super("Periodista", 70, 32, 4, 1, "Letras");
             }
@@ -530,13 +555,14 @@ public class PartidaController {
                 if (super.ataque(unidadAtaque, unidadDefensa) == true) {
                     rondas++;
                     aparicion_personaje();
+                    IA();
                     return true;
                 }
                 return false;
             }
         }
 
-        protected static class Filosofo extends Unidades {
+        protected class Filosofo extends Unidades {
             protected Filosofo() {
                 super("Filosofo", 90, 21, 2, 3, "Letras");
             }
@@ -566,6 +592,7 @@ public class PartidaController {
                 if (super.ataque(unidadAtaque, unidadDefensa) == true) {
                     rondas++;
                     aparicion_personaje();
+                    IA();
 
                     return true;
                 }
@@ -581,7 +608,7 @@ public class PartidaController {
             return (int) (Math.random() * rondas) + 1;
         }
 
-        protected static void aparicion_personaje() {
+        protected void aparicion_personaje() {
             int alea = obtenerNumeroDel1Arondas();
             if (alea == rondas) {
                 int numero = obtenerNumeroDel1Al5();
@@ -608,42 +635,14 @@ public class PartidaController {
             }
 
         }
-
-        protected void aparicion_personajeInicial() {
-            if (0 == rondas) {
-                int numero = obtenerNumeroDel1Al5();
-                if (numero == 1) {
-                    Matematico matematico = new Matematico();
-                    Filosofo filosofo = new Filosofo();
-                    Medico medico = new Medico();
-                    Historiador historiador = new Historiador();
-                }
-                if (numero == 2) {
-                    Medico medico = new Medico();
-                    Historiador historiador = new Historiador();
-                    Filologo filologo = new Filologo();
-                    Arquitecto arquitecto = new Arquitecto();
-                }
-                if (numero == 3) {
-                    Filologo filologo = new Filologo();
-                    Arquitecto arquitecto = new Arquitecto();
-                    Poeta poeta = new Poeta();
-                    Fisico fisico = new Fisico();
-                }
-                if (numero == 4) {
-                    Poeta poeta = new Poeta();
-                    Fisico fisico = new Fisico();
-                    Ingeniero ingeniero = new Ingeniero();
-                    Periodista periodista = new Periodista();
-                }
-                if (numero == 5) {
-                    Ingeniero ingeniero = new Ingeniero();
-                    Periodista periodista = new Periodista();
-                    Matematico matematico = new Matematico();
-                    Filosofo filosofo = new Filosofo();
-                }
+        protected void IA(){
+            if (rondas%2 != 0) {
+                ia.turno();
+                rondas++;
             }
         }
+
     }
+
 
 
