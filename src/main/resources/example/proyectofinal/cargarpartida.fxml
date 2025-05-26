@@ -3,11 +3,11 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="example.proyectofinal.TableroController">
+<AnchorPane prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="example.proyectofinal.CargarPartidaController">
     <children>
         <Button fx:id="volveratras" layoutX="14.0" layoutY="461.0" mnemonicParsing="false" onAction="#clickVolver" prefHeight="25.0" prefWidth="107.0" text="Volver" />
-        <Button fx:id="siguiente" layoutX="679.0" layoutY="461.0" mnemonicParsing="false" onAction="#clickSiguiente" prefHeight="25.0" prefWidth="107.0" text="Siguiente" />
-      <Button layoutX="382.0" layoutY="238.0" mnemonicParsing="false" text="Button" />
+      <Button fx:id="cargarPartidaButton" layoutX="366.0" layoutY="180.0" mnemonicParsing="false" onAction="#cargarPartidaButtonClick" text="CARGAR PARTIDA" />
+      <Label fx:id="labelCargarPartida" alignment="CENTER" contentDisplay="CENTER" layoutX="338.0" layoutY="241.0" prefHeight="18.0" prefWidth="168.0" textOverrun="CENTER_WORD_ELLIPSIS" />
     </children>
 
 </AnchorPane>

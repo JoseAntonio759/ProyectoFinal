@@ -11,6 +11,7 @@ module example.proyectofinal {
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
     requires java.naming;
+    requires com.google.gson;
 
     opens example.proyectofinal to javafx.fxml;
     exports example.proyectofinal;

@@ -24,6 +24,13 @@ public class Grafo<T> {
         arista.origen.addAristaSalida(arista);
         arista.destino.addAristaEntrada(arista);
     }
+    public Arista<T> getArista(int index){
+        return arista.get(index);
+    }
+    public Vertice<T> getVertice(int index){
+        return vertices.get(index);
+    }
+
 
 
 }
