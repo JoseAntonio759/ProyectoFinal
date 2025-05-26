@@ -7,9 +7,9 @@ import java.util.List;
 
 
 public class Vertice<T> {
-    T data;
-    List<Arista<T>> aristaEntrada;
-    List<Arista<T>> aristaSalida;
+    public T data;
+    public List<Arista<T>> aristaEntrada;
+    public List<Arista<T>> aristaSalida;
 
     public Vertice(T data) {
         this.data = data;

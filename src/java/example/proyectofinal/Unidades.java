@@ -16,8 +16,8 @@ public abstract class Unidades {
     public Unidades(String nombre, int hp, int daño, int movimiento, int rango_ataque, String faccion) {
         this.nombre = nombre;
         this.hp=hp;
+        this.daño = daño;
         this.movimiento=movimiento;
-        this.rango_ataque=rango_ataque;
         this.faccion=faccion;
     }
 
@@ -43,20 +43,8 @@ public abstract class Unidades {
     public int getMovimiento(){
         return movimiento;
     }
-    void setRangoMovimiento(int rangoMovimiento){
-        this.movimiento=rangoMovimiento;
-    }
-    public int getRangoMovimiento(){
-        return movimiento;
-    }
-    void setRango_ataque(int rango_ataque){
-        this.rango_ataque=rango_ataque;
-    }
-    public int getRango_ataque(){
-        return rango_ataque;
-    }
     String getStats() {
-        return ("Nombre: " + nombre + "daño:" +hp + "daño:" + daño + "movimiento:" + movimiento + "rango:" + rango_ataque);
+        return ("Nombre: " + nombre + " hp: " +hp + " daño: " + daño + " movimiento: " + movimiento);
     }
 
     public int getX() {

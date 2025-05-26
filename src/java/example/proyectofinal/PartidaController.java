@@ -3,29 +3,68 @@ package example.proyectofinal;
 import example.proyectofinal.IA.IAController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.scene.input.MouseEvent;
-
 
 public class PartidaController {
 
     @FXML
     private GridPane gridPane;
+    @FXML
+    private Label Turnos;
     private int ancho;
     private int largo;
     private Button selectedUnit;
     private Unidades selectedUnidad;
     private UnidadesController unidadesController;
-    private ProgramaTablero programaTablero = new ProgramaTablero();
+    private int contadorTurnos = 0;
+    private Unidades matematico = new ProgramaTablero.Matematico();
+    private Unidades medico = new ProgramaTablero.Medico();
+    private Unidades poeta = new ProgramaTablero.Poeta();
+    private Unidades historiador = new ProgramaTablero.Historiador();
 
+
+    @FXML
+    public void initialize() {
+        contarUnidades();
+    }
 
     public void setDimensiones(int ancho, int largo) {
         this.ancho = ancho;
         this.largo = largo;
         inicializarGridPane();
+        if (Turnos != null)
+            Turnos.setText("Turno: " + contadorTurnos);
+    }
+
+    private void contarUnidades() {
+        if (gridPane != null) {
+            int total = 0;
+
+            for (Node node : gridPane.getChildren()) {
+                if (node instanceof Button) {
+                    Button button = (Button) node;
+                    String texto = button.getText();
+
+                    if (texto.equals("MAT")) {
+                        total++;
+                    } else if (texto.equals("MED")) {
+                        total++;
+                    } else if (texto.equals("POE")) {
+                        total++;
+                    } else if (texto.equals("HIS")) {
+                        total++;
+                    }
+                }
+            }
+
+            System.out.println("Total unidades: " + total);
+        }
     }
 
     private void inicializarGridPane() {
@@ -42,33 +81,117 @@ public class PartidaController {
         }
     }
 
+
+
     private void Control(Button button, MouseEvent event) {
+        String faccionTurno = (contadorTurnos % 2 == 0) ? "Ciencias" : "Letras";
+
         if (selectedUnit == null) {
-            if (!button.getText().isEmpty() && !(button.getText().length()>3)) {
-                selectedUnit = button;
-                marcarCasillasMovimientoPosibles(button);
-                if (event.getClickCount() == 2) {
-                    abrirVentanaUnidades(traductorUnidades(button));
+            if (!button.getText().isEmpty() && !button.getText().equals("+1 MOV")
+                    && !button.getText().equals("-1 MOV")
+                    && !button.getText().equals("+1 ATQ")
+                    && !button.getText().equals("-1 ATQ")
+                    && !button.getText().equals("+1 HP")
+                    && !button.getText().equals("-1 HP")) {
+
+                Unidades tempUnidad = null;
+                if (button.getText().equals("MAT")) tempUnidad = matematico;
+                if (button.getText().equals("MED")) tempUnidad = medico;
+                if (button.getText().equals("POE")) tempUnidad = poeta;
+                if (button.getText().equals("HIS")) tempUnidad = historiador;
+
+                if (tempUnidad != null && tempUnidad.getFaccion().equals(faccionTurno)) {
+                    selectedUnit = button;
+                    selectedUnidad = tempUnidad;
+                    System.out.println(selectedUnidad.getStats());
+                    marcarCasillasMovimientoPosibles(button);
+                    if (event.getClickCount() == 2) {
+                        abrirVentanaUnidades();
+                    }
                 }
             }
         } else {
-            if (button.getStyle().contains("-fx-background-color: #00ff00")) {
+            if (button.getStyle().contains("-fx-background-color: #ff0000")) {
+                Unidades targetUnidad = null;
+                if (button.getText().equals("MAT")) {
+                    targetUnidad = matematico;
+                } else if (button.getText().equals("MED")) {
+                    targetUnidad = medico;
+                } else if (button.getText().equals("POE")) {
+                    targetUnidad = poeta;
+                } else if (button.getText().equals("HIS")) {
+                    targetUnidad = historiador;
+                }
+
+                if (targetUnidad != null) {
+                    targetUnidad.setHp(targetUnidad.getHp() - selectedUnidad.getDaño());
+                    if (targetUnidad.getHp() <= 0) {
+                        button.setText("");
+                        button.setStyle("");
+                    }
+                    selectedUnit = null;
+                    selectedUnidad = null;
+                    contadorTurnos++;
+                    Turnos.setText("Turno: " + contadorTurnos);
+                    limpiarMarcas();
+                    contarUnidades();
+                }
+                return;
+            }
+
+            if (button.getStyle().contains("-fx-background-color: #00ff00") || button.getStyle().contains("-fx-background-color: #ffff00")) {
+                String powerUp = button.getText();
                 button.setText(selectedUnit.getText());
                 selectedUnit.setText("");
                 limpiarMarcas();
+
+                if (powerUp.equals("+1 ATQ")) {
+                    selectedUnidad.setDaño(selectedUnidad.getDaño() + 1);
+                } else if (powerUp.equals("-1 ATQ")) {
+                    selectedUnidad.setDaño(selectedUnidad.getDaño() - 1);
+                } else if (powerUp.equals("+1 HP")) {
+                    selectedUnidad.setHp(selectedUnidad.getHp() + 1);
+                } else if (powerUp.equals("-1 HP")) {
+                    selectedUnidad.setHp(selectedUnidad.getHp() - 1);
+                } else if (powerUp.equals("+1 MOV")) {
+                    selectedUnidad.setMovimiento(selectedUnidad.getMovimiento() + 1);
+                } else if (powerUp.equals("-1 MOV")) {
+                    selectedUnidad.setMovimiento(selectedUnidad.getMovimiento() - 1);
+                }
+
                 selectedUnit = null;
-                ProgramaTablero.incRondas();
-                programaTablero.IA();
-            } else if (!button.getText().isEmpty() && !(button.getText().length()>3)) {
-                selectedUnit = button;
-                marcarCasillasMovimientoPosibles(button);
-                if (event.getClickCount() == 2) {
-                    abrirVentanaUnidades(traductorUnidades(button));
+                selectedUnidad = null;
+                contadorTurnos++;
+                Turnos.setText("Turno: " + contadorTurnos);
+                contarUnidades();
+            } else if (!button.getText().isEmpty()
+                    && !button.getText().equals("+1 MOV")
+                    && !button.getText().equals("-1 MOV")
+                    && !button.getText().equals("+1 ATQ")
+                    && !button.getText().equals("-1 ATQ")
+                    && !button.getText().equals("+1 HP")
+                    && !button.getText().equals("-1 HP")) {
+
+                Unidades tempUnidad = null;
+                if (button.getText().equals("MAT")) tempUnidad = matematico;
+                if (button.getText().equals("MED")) tempUnidad = medico;
+                if (button.getText().equals("POE")) tempUnidad = poeta;
+                if (button.getText().equals("HIS")) tempUnidad = historiador;
+
+                if (tempUnidad != null && tempUnidad.getFaccion().equals(faccionTurno)) {
+                    selectedUnit = button;
+                    selectedUnidad = tempUnidad;
+                    System.out.println(selectedUnidad.getStats());
+                    marcarCasillasMovimientoPosibles(button);
+                    if (event.getClickCount() == 2) {
+                        abrirVentanaUnidades();
+                    }
                 }
             }
         }
     }
-//comentario para commit
+
+
     private void marcarCasillasMovimientoPosibles(Button unit) {
         limpiarMarcas();
 
@@ -84,8 +207,11 @@ public class PartidaController {
         } else {
             col = 0;
         }
-        for (int i = -1; i <= 1; i++) {
-            for (int j = -1; j <= 1; j++) {
+
+        int rango = selectedUnidad.getMovimiento();
+
+        for (int i = -rango; i <= rango; i++) {
+            for (int j = -rango; j <= rango; j++) {
                 if (!(i == 0 && j == 0)) {
                     marcarCasillaValida(row + i, col + j);
                 }
@@ -97,19 +223,27 @@ public class PartidaController {
         if (row >= 0 && row < largo && col >= 0 && col < ancho) {
             Button targetButton = getButtonAt(row, col);
             if (targetButton != null) {
-                boolean esDestinoVacio = targetButton.getText().isEmpty();
-                boolean puedeMover = selectedUnit != null
-                        && selectedUnit.getText().length() <= 3
-                        && targetButton.getText().length() > 3;
-                if (esDestinoVacio || puedeMover) {
+                if (targetButton.getText().equals("+1 MOV") ||
+                        targetButton.getText().equals("-1 MOV") ||
+                        targetButton.getText().equals("+1 ATQ") ||
+                        targetButton.getText().equals("-1 ATQ") ||
+                        targetButton.getText().equals("+1 HP") ||
+                        targetButton.getText().equals("-1 HP")) {
+                    targetButton.setStyle("-fx-background-color: #ffff00;");
+                } else if (targetButton.getText().isEmpty()) {
                     targetButton.setStyle("-fx-background-color: #00ff00;");
+                } else if (targetButton.getText().equals("MAT") ||
+                        targetButton.getText().equals("MED") ||
+                        targetButton.getText().equals("POE") ||
+                        targetButton.getText().equals("HIS")) {
+                    targetButton.setStyle("-fx-background-color: #ff0000;");
                 }
             }
         }
     }
 
     private Button getButtonAt(int row, int col) {
-        for (javafx.scene.Node node : gridPane.getChildren()) {
+        for (Node node : gridPane.getChildren()) {
             if (node instanceof Button &&
                     GridPane.getRowIndex(node) == row &&
                     GridPane.getColumnIndex(node) == col) {
@@ -137,512 +271,497 @@ public class PartidaController {
                 button.setOnMouseClicked(e -> Control(button, e));
             }
         });
+        contarUnidades();
     }
 
+    private void abrirVentanaUnidades() {
+        try {
+            FXMLLoader loader = new FXMLLoader(Menu.class.getResource("unidades.fxml"));
+            Scene scene = new Scene(loader.load(), 800, 500);
+            Stage stage = new Stage();
 
-    private void abrirVentanaUnidades(Unidades unidad) {
-        if (unidad != null) {
-            try {
-                FXMLLoader loader = new FXMLLoader(Menu.class.getResource("unidades.fxml"));
-                Scene scene = new Scene(loader.load(), 800, 500);
-                Stage stage = new Stage();
-
-                unidadesController = loader.getController();
-                if (selectedUnit != null ) {
-                    stage.setTitle("Informacion de Unidad");
-                    stage.setScene(scene);
-                    stage.show();
-                    unidadesController.showStats(unidad);
-                }
-
-            } catch (Exception e) {
-                e.printStackTrace();
+            unidadesController = loader.getController();
+            if (selectedUnit != null) {
+                stage.setTitle("Informacion de Unidad");
+                stage.setScene(scene);
+                stage.show();
             }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-    }
-    private Unidades traductorUnidades(Button button) {
-        ProgramaTablero programaTablero = new ProgramaTablero();
-        if (button.getText()== "MAT"){Unidades unidad = new ProgramaTablero().new Matematico();
-        return unidad;}
-        if (button.getText()== "HIS"){Unidades unidad = new ProgramaTablero().new Historiador();
-        return unidad;}
-        if (button.getText()== "POE"){Unidades unidad = new ProgramaTablero().new Poeta();
-        return unidad;}
-        if (button.getText()== "MED"){Unidades unidad = new ProgramaTablero().new Medico();
-        return unidad;}
-        else return null;
     }
 }
 
-    
 
 
-    class ProgramaTablero {
-        private static int rondas = 0;
-        IAController ia = new IAController();
-        protected static void incRondas() {
-            rondas++;
+
+class ProgramaTablero {
+    private static int rondas = 0;
+    static IAController ia = new IAController();
+    protected static void incRondas() {
+        rondas++;
+    }
+
+    protected class Tablero {
+        private TableroController ancho;
+        private TableroController largo;
+        private Casilla[][] casillas;
+        private int largo1;
+        private int ancho1;
+
+
+        public Tablero() {
+            inicializarTablero();
         }
 
-        protected class Tablero {
-            private TableroController ancho;
-            private TableroController largo;
-            private Casilla[][] casillas;
-            private int largo1;
-            private int ancho1;
-
-
-            public Tablero() {
-                inicializarTablero();
-            }
-
-            protected void inicializarTablero() {
-                casillas = new Casilla[largo1][ancho1];
-                for (int i = 1; i < largo1; i++) {
-                    for (int j = 1; j < ancho1; j++) {
-                        casillas[i][j] = new Casilla();
-                    }
-                }
-            }
-
-            protected Casilla obtenerCasilla(int fila, int columna) {
-                if (fila >= 0 && fila < largo1 && columna >= 0 && columna < ancho1) {
-                    return casillas[fila][columna];
-                }
-                return null;
-            }
-
-            protected class Casilla {
-                private boolean ocupada;
-
-                protected Casilla() {
-                    this.ocupada = false;
-                }
-
-                protected boolean isOcupada() {
-                    return ocupada;
-                }
-
-                protected void setPropiedad(boolean trueofalse) {
-                    this.ocupada = trueofalse;
+        protected void inicializarTablero() {
+            casillas = new Casilla[largo1][ancho1];
+            for (int i = 1; i < largo1; i++) {
+                for (int j = 1; j < ancho1; j++) {
+                    casillas[i][j] = new Casilla();
                 }
             }
         }
 
-        protected class Matematico extends Unidades {
-            protected Matematico() {
-                super("Matematico", 90, 21, 2, 3, "Ciencias");
+        protected Casilla obtenerCasilla(int fila, int columna) {
+            if (fila >= 0 && fila < largo1 && columna >= 0 && columna < ancho1) {
+                return casillas[fila][columna];
             }
-
-            @Override
-            protected String getStats() {
-                return super.getStats();
-            }
-
-            protected boolean isVivo() {
-                return super.isVivo();
-            }
-
-            protected void setHp(int hp) {
-                super.setHp(hp);
-            }
-
-            protected void eliminarUnidad() {
-                super.eliminarUnidad();
-            }
-
-            protected boolean isInRango() {
-                return super.isInRango();
-            }
-
-            public boolean ataque(Unidades unidadAtaque, Unidades unidadDefensa) {
-                if (super.ataque(unidadAtaque, unidadDefensa) == true) {
-                    rondas++;
-                    aparicion_personaje();
-                    IA();
-                    return true;
-                }
-                return false;
-            }
+            return null;
         }
 
-        protected class Ingeniero extends Unidades {
-            protected Ingeniero() {
-                super("Ingeniero", 70, 32, 4, 1, "Ciencias");
+        protected class Casilla {
+            private boolean ocupada;
+
+            protected Casilla() {
+                this.ocupada = false;
             }
 
-            @Override
-            protected String getStats() {
-                return super.getStats();
+            protected boolean isOcupada() {
+                return ocupada;
             }
 
-            protected boolean isVivo() {
-                return super.isVivo();
-            }
-
-            protected void setHp(int hp) {
-                super.setHp(hp);
-            }
-
-            protected void eliminarUnidad() {
-                super.eliminarUnidad();
-            }
-
-            protected boolean isInRango() {
-                return super.isInRango();
-            }
-
-            public boolean ataque(Unidades unidadAtaque, Unidades unidadDefensa) {
-                if (super.ataque(unidadAtaque, unidadDefensa) == true) {
-                    rondas++;
-                    aparicion_personaje();
-                    IA();
-                    return true;
-                }
-                return false;
+            protected void setPropiedad(boolean trueofalse) {
+                this.ocupada = trueofalse;
             }
         }
+    }
 
-        protected class Medico extends Unidades {
-            protected Medico() {
-                super("Medico", 120, 17, 2, 3, "Ciencias");
-            }
-
-            @Override
-            protected String getStats() {
-                return super.getStats();
-            }
-
-            protected boolean isVivo() {
-                return super.isVivo();
-            }
-
-            protected void setHp(int hp) {
-                super.setHp(hp);
-            }
-
-            protected void eliminarUnidad() {
-                super.eliminarUnidad();
-            }
-
-            protected boolean isInRango() {
-                return super.isInRango();
-            }
-
-            public boolean ataque(Unidades unidadAtaque, Unidades unidadDefensa) {
-                if (super.ataque(unidadAtaque, unidadDefensa) == true) {
-                    rondas++;
-                    aparicion_personaje();
-                    IA();
-                    return true;
-                }
-                return false;
-            }
+    protected static class Matematico extends Unidades {
+        protected Matematico() {
+            super("Matematico", 90, 21, 2, 3, "Ciencias");
         }
 
-        protected class Arquitecto extends Unidades {
-            protected Arquitecto() {
-                super("Arquitecto", 80, 27, 3, 2, "Ciencias");
-            }
-
-            @Override
-            protected String getStats() {
-                return super.getStats();
-            }
-
-            protected boolean isVivo() {
-                return super.isVivo();
-            }
-
-            protected void setHp(int hp) {
-                super.setHp(hp);
-            }
-
-            protected void eliminarUnidad() {
-                super.eliminarUnidad();
-            }
-
-            protected boolean isInRango() {
-                return super.isInRango();
-            }
-
-            public boolean ataque(Unidades unidadAtaque, Unidades unidadDefensa) {
-                if (super.ataque(unidadAtaque, unidadDefensa) == true) {
-                    rondas++;
-                    aparicion_personaje();
-                    IA();
-                    return true;
-                }
-                return false;
-            }
+        @Override
+        protected String getStats() {
+            return super.getStats();
         }
 
-        protected class Fisico extends Unidades {
-            protected Fisico() {
-                super("Fisico", 100, 15, 1, 1, "Ciencias");
-            }
-
-            @Override
-            protected String getStats() {
-                return super.getStats();
-            }
-
-            protected boolean isVivo() {
-                return super.isVivo();
-            }
-
-            protected void setHp(int hp) {
-                super.setHp(hp);
-            }
-
-            protected void eliminarUnidad() {
-                super.eliminarUnidad();
-            }
-
-            protected boolean isInRango() {
-                return super.isInRango();
-            }
-
-            public boolean ataque(Unidades unidadAtaque, Unidades unidadDefensa) {
-                if (super.ataque(unidadAtaque, unidadDefensa) == true) {
-                    rondas++;
-                    aparicion_personaje();
-                    IA();
-                    return true;
-                }
-                return false;
-            }
+        protected boolean isVivo() {
+            return super.isVivo();
         }
 
-        protected class Filologo extends Unidades {
-            protected Filologo() {
-                super("Filologo", 80, 27, 3, 2, "Letras");
-            }
-
-            @Override
-            protected String getStats() {
-                return super.getStats();
-            }
-
-            protected boolean isVivo() {
-                return super.isVivo();
-            }
-
-            protected void setHp(int hp) {
-                super.setHp(hp);
-            }
-
-            protected void eliminarUnidad() {
-                super.eliminarUnidad();
-            }
-
-            protected boolean isInRango() {
-                return super.isInRango();
-            }
-
-            public boolean ataque(Unidades unidadAtaque, Unidades unidadDefensa) {
-                if (super.ataque(unidadAtaque, unidadDefensa) == true) {
-                    rondas++;
-                    aparicion_personaje();
-                    IA();
-                    return true;
-                }
-                return false;
-            }
+        protected void setHp(int hp) {
+            super.setHp(hp);
         }
 
-        protected class Poeta extends Unidades {
-            protected Poeta() {
-                super("Poeta", 75, 22, 3, 4, "Letras");
-            }
-
-            @Override
-            protected String getStats() {
-                return super.getStats();
-            }
-
-            protected boolean isVivo() {
-                return super.isVivo();
-            }
-
-            protected void setHp(int hp) {
-                super.setHp(hp);
-            }
-
-            protected void eliminarUnidad() {
-                super.eliminarUnidad();
-            }
-
-            protected boolean isInRango() {
-                return super.isInRango();
-            }
-
-            public boolean ataque(Unidades unidadAtaque, Unidades unidadDefensa) {
-                if (super.ataque(unidadAtaque, unidadDefensa) == true) {
-                    rondas++;
-                    aparicion_personaje();
-                    IA();
-                    return true;
-                }
-                return false;
-            }
+        protected void eliminarUnidad() {
+            super.eliminarUnidad();
         }
 
-        protected class Historiador extends Unidades {
-            protected Historiador() {
-                super("Historiador", 120, 17, 2, 2, "Letras");
-            }
-
-            @Override
-            protected String getStats() {
-                return super.getStats();
-            }
-
-            protected boolean isVivo() {
-                return super.isVivo();
-            }
-
-            protected void setHp(int hp) {
-                super.setHp(hp);
-            }
-
-            protected void eliminarUnidad() {
-                super.eliminarUnidad();
-            }
-
-            protected boolean isInRango() {
-                return super.isInRango();
-            }
-
-            public boolean ataque(Unidades unidadAtaque, Unidades unidadDefensa) {
-                if (super.ataque(unidadAtaque, unidadDefensa) == true) {
-                    rondas++;
-                    aparicion_personaje();
-                    IA();
-                    return true;
-                }
-                return false;
-            }
+        protected boolean isInRango() {
+            return super.isInRango();
         }
 
-        protected class Periodista extends Unidades {
-            protected Periodista() {
-                super("Periodista", 70, 32, 4, 1, "Letras");
-            }
-
-            @Override
-            protected String getStats() {
-                return super.getStats();
-            }
-
-            protected boolean isVivo() {
-                return super.isVivo();
-            }
-
-            protected void setHp(int hp) {
-                super.setHp(hp);
-            }
-
-            protected void eliminarUnidad() {
-                super.eliminarUnidad();
-            }
-
-            protected boolean isInRango() {
-                return super.isInRango();
-            }
-
-            public boolean ataque(Unidades unidadAtaque, Unidades unidadDefensa) {
-                if (super.ataque(unidadAtaque, unidadDefensa) == true) {
-                    rondas++;
-                    aparicion_personaje();
-                    IA();
-                    return true;
-                }
-                return false;
-            }
-        }
-
-        protected class Filosofo extends Unidades {
-            protected Filosofo() {
-                super("Filosofo", 90, 21, 2, 3, "Letras");
-            }
-
-            @Override
-            protected String getStats() {
-                return super.getStats();
-            }
-
-            protected boolean isVivo() {
-                return super.isVivo();
-            }
-
-            protected void setHp(int hp) {
-                super.setHp(hp);
-            }
-
-            protected void eliminarUnidad() {
-                super.eliminarUnidad();
-            }
-
-            protected boolean isInRango() {
-                return super.isInRango();
-            }
-
-            public boolean ataque(Unidades unidadAtaque, Unidades unidadDefensa) {
-                if (super.ataque(unidadAtaque, unidadDefensa) == true) {
-                    rondas++;
-                    aparicion_personaje();
-                    IA();
-
-                    return true;
-                }
-                return false;
-            }
-        }
-
-        public static int obtenerNumeroDel1Al5() {
-            return (int) (Math.random() * 5) + 1;
-        }
-
-        public static int obtenerNumeroDel1Arondas() {
-            return (int) (Math.random() * rondas) + 1;
-        }
-
-        protected void aparicion_personaje() {
-            int alea = obtenerNumeroDel1Arondas();
-            if (alea == rondas) {
-                int numero = obtenerNumeroDel1Al5();
-                if (numero == 1) {
-                    Matematico matematico = new Matematico();
-                    Filosofo filosofo = new Filosofo();
-                }
-                if (numero == 2) {
-                    Medico medico = new Medico();
-                    Historiador historiador = new Historiador();
-                }
-                if (numero == 3) {
-                    Filologo filologo = new Filologo();
-                    Arquitecto arquitecto = new Arquitecto();
-                }
-                if (numero == 4) {
-                    Poeta poeta = new Poeta();
-                    Fisico fisico = new Fisico();
-                }
-                if (numero == 5) {
-                    Ingeniero ingeniero = new Ingeniero();
-                    Periodista periodista = new Periodista();
-                }
-            }
-
-        }
-        protected void IA(){
-            if (rondas%2 != 0) {
-                ia.turno();
+        public boolean ataque(Unidades unidadAtaque, Unidades unidadDefensa) {
+            if (super.ataque(unidadAtaque, unidadDefensa) == true) {
                 rondas++;
+                aparicion_personaje();
+                IA();
+                return true;
+            }
+            return false;
+        }
+    }
+
+    protected static class Ingeniero extends Unidades {
+        protected Ingeniero() {
+            super("Ingeniero", 70, 32, 4, 1, "Ciencias");
+        }
+
+        @Override
+        protected String getStats() {
+            return super.getStats();
+        }
+
+        protected boolean isVivo() {
+            return super.isVivo();
+        }
+
+        protected void setHp(int hp) {
+            super.setHp(hp);
+        }
+
+        protected void eliminarUnidad() {
+            super.eliminarUnidad();
+        }
+
+        protected boolean isInRango() {
+            return super.isInRango();
+        }
+
+        public boolean ataque(Unidades unidadAtaque, Unidades unidadDefensa) {
+            if (super.ataque(unidadAtaque, unidadDefensa) == true) {
+                rondas++;
+                aparicion_personaje();
+                IA();
+                return true;
+            }
+            return false;
+        }
+    }
+
+    protected static class Medico extends Unidades {
+        protected Medico() {
+            super("Medico", 120, 17, 2, 3, "Ciencias");
+        }
+
+        @Override
+        protected String getStats() {
+            return super.getStats();
+        }
+
+        protected boolean isVivo() {
+            return super.isVivo();
+        }
+
+        protected void setHp(int hp) {
+            super.setHp(hp);
+        }
+
+        protected void eliminarUnidad() {
+            super.eliminarUnidad();
+        }
+
+        protected boolean isInRango() {
+            return super.isInRango();
+        }
+
+        public boolean ataque(Unidades unidadAtaque, Unidades unidadDefensa) {
+            if (super.ataque(unidadAtaque, unidadDefensa) == true) {
+                rondas++;
+                aparicion_personaje();
+                IA();
+                return true;
+            }
+            return false;
+        }
+    }
+
+    protected static class Arquitecto extends Unidades {
+        protected Arquitecto() {
+            super("Arquitecto", 80, 27, 3, 2, "Ciencias");
+        }
+
+        @Override
+        protected String getStats() {
+            return super.getStats();
+        }
+
+        protected boolean isVivo() {
+            return super.isVivo();
+        }
+
+        protected void setHp(int hp) {
+            super.setHp(hp);
+        }
+
+        protected void eliminarUnidad() {
+            super.eliminarUnidad();
+        }
+
+        protected boolean isInRango() {
+            return super.isInRango();
+        }
+
+        public boolean ataque(Unidades unidadAtaque, Unidades unidadDefensa) {
+            if (super.ataque(unidadAtaque, unidadDefensa) == true) {
+                rondas++;
+                aparicion_personaje();
+                IA();
+                return true;
+            }
+            return false;
+        }
+    }
+
+    protected static class Fisico extends Unidades {
+        protected Fisico() {
+            super("Fisico", 100, 15, 1, 1, "Ciencias");
+        }
+
+        @Override
+        protected String getStats() {
+            return super.getStats();
+        }
+
+        protected boolean isVivo() {
+            return super.isVivo();
+        }
+
+        protected void setHp(int hp) {
+            super.setHp(hp);
+        }
+
+        protected void eliminarUnidad() {
+            super.eliminarUnidad();
+        }
+
+        protected boolean isInRango() {
+            return super.isInRango();
+        }
+
+        public boolean ataque(Unidades unidadAtaque, Unidades unidadDefensa) {
+            if (super.ataque(unidadAtaque, unidadDefensa) == true) {
+                rondas++;
+                aparicion_personaje();
+                IA();
+                return true;
+            }
+            return false;
+        }
+    }
+
+    protected static class Filologo extends Unidades {
+        protected Filologo() {
+            super("Filologo", 80, 27, 3, 2, "Letras");
+        }
+
+        @Override
+        protected String getStats() {
+            return super.getStats();
+        }
+
+        protected boolean isVivo() {
+            return super.isVivo();
+        }
+
+        protected void setHp(int hp) {
+            super.setHp(hp);
+        }
+
+        protected void eliminarUnidad() {
+            super.eliminarUnidad();
+        }
+
+        protected boolean isInRango() {
+            return super.isInRango();
+        }
+
+        public boolean ataque(Unidades unidadAtaque, Unidades unidadDefensa) {
+            if (super.ataque(unidadAtaque, unidadDefensa) == true) {
+                rondas++;
+                aparicion_personaje();
+                IA();
+                return true;
+            }
+            return false;
+        }
+    }
+
+    protected static class Poeta extends Unidades {
+        protected Poeta() {
+            super("Poeta", 75, 22, 3, 4, "Letras");
+        }
+
+        @Override
+        protected String getStats() {
+            return super.getStats();
+        }
+
+        protected boolean isVivo() {
+            return super.isVivo();
+        }
+
+        protected void setHp(int hp) {
+            super.setHp(hp);
+        }
+
+        protected void eliminarUnidad() {
+            super.eliminarUnidad();
+        }
+
+        protected boolean isInRango() {
+            return super.isInRango();
+        }
+
+        public boolean ataque(Unidades unidadAtaque, Unidades unidadDefensa) {
+            if (super.ataque(unidadAtaque, unidadDefensa) == true) {
+                rondas++;
+                aparicion_personaje();
+                IA();
+                return true;
+            }
+            return false;
+        }
+    }
+
+    protected static class Historiador extends Unidades {
+        protected Historiador() {
+            super("Historiador", 120, 17, 2, 2, "Letras");
+        }
+
+        @Override
+        protected String getStats() {
+            return super.getStats();
+        }
+
+        protected boolean isVivo() {
+            return super.isVivo();
+        }
+
+        protected void setHp(int hp) {
+            super.setHp(hp);
+        }
+
+        protected void eliminarUnidad() {
+            super.eliminarUnidad();
+        }
+
+        protected boolean isInRango() {
+            return super.isInRango();
+        }
+
+        public boolean ataque(Unidades unidadAtaque, Unidades unidadDefensa) {
+            if (super.ataque(unidadAtaque, unidadDefensa) == true) {
+                rondas++;
+                aparicion_personaje();
+                IA();
+                return true;
+            }
+            return false;
+        }
+    }
+
+    protected static class Periodista extends Unidades {
+        protected Periodista() {
+            super("Periodista", 70, 32, 4, 1, "Letras");
+        }
+
+        @Override
+        protected String getStats() {
+            return super.getStats();
+        }
+
+        protected boolean isVivo() {
+            return super.isVivo();
+        }
+
+        protected void setHp(int hp) {
+            super.setHp(hp);
+        }
+
+        protected void eliminarUnidad() {
+            super.eliminarUnidad();
+        }
+
+        protected boolean isInRango() {
+            return super.isInRango();
+        }
+
+        public boolean ataque(Unidades unidadAtaque, Unidades unidadDefensa) {
+            if (super.ataque(unidadAtaque, unidadDefensa) == true) {
+                rondas++;
+                aparicion_personaje();
+                IA();
+                return true;
+            }
+            return false;
+        }
+    }
+
+    protected static class Filosofo extends Unidades {
+        protected Filosofo() {
+            super("Filosofo", 90, 21, 2, 3, "Letras");
+        }
+
+        @Override
+        protected String getStats() {
+            return super.getStats();
+        }
+
+        protected boolean isVivo() {
+            return super.isVivo();
+        }
+
+        protected void setHp(int hp) {
+            super.setHp(hp);
+        }
+
+        protected void eliminarUnidad() {
+            super.eliminarUnidad();
+        }
+
+        protected boolean isInRango() {
+            return super.isInRango();
+        }
+
+        public boolean ataque(Unidades unidadAtaque, Unidades unidadDefensa) {
+            if (super.ataque(unidadAtaque, unidadDefensa) == true) {
+                rondas++;
+                aparicion_personaje();
+                IA();
+
+                return true;
+            }
+            return false;
+        }
+    }
+
+    public static int obtenerNumeroDel1Al5() {
+        return (int) (Math.random() * 5) + 1;
+    }
+
+    public static int obtenerNumeroDel1Arondas() {
+        return (int) (Math.random() * rondas) + 1;
+    }
+
+    protected static void aparicion_personaje() {
+        int alea = obtenerNumeroDel1Arondas();
+        if (alea == rondas) {
+            int numero = obtenerNumeroDel1Al5();
+            if (numero == 1) {
+                Matematico matematico = new Matematico();
+                Filosofo filosofo = new Filosofo();
+            }
+            if (numero == 2) {
+                Medico medico = new Medico();
+                Historiador historiador = new Historiador();
+            }
+            if (numero == 3) {
+                Filologo filologo = new Filologo();
+                Arquitecto arquitecto = new Arquitecto();
+            }
+            if (numero == 4) {
+                Poeta poeta = new Poeta();
+                Fisico fisico = new Fisico();
+            }
+            if (numero == 5) {
+                Ingeniero ingeniero = new Ingeniero();
+                Periodista periodista = new Periodista();
             }
         }
 
     }
+    protected static void IA(){
+        if (rondas%2 != 0) {
+            ia.turno();
+            rondas++;
+        }
+    }
+
+}
 
 
 

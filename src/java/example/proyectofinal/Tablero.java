@@ -63,8 +63,8 @@ public class Tablero {
         int dy = Math.abs(unidad.getY() - destinoCol);
         int distancia = dx + dy;
 
-        return distancia <= unidad.getRangoMovimiento() &&
-                unidad.getRangoMovimiento() >= destino.getCostoMovimiento();
+        return distancia <= unidad.getMovimiento() &&
+                unidad.getMovimiento() >= destino.getCostoMovimiento();
     }
 
     public boolean moverUnidad(Unidades unidad, int nuevaFila, int nuevaCol) {

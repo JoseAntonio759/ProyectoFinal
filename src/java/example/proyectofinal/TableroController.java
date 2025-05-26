@@ -2,8 +2,6 @@ package example.proyectofinal;
 
 
 import example.proyectofinal.IA.IAController;
-import example.proyectofinal.Menu;
-import example.proyectofinal.PartidaController;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXML;
@@ -19,7 +17,6 @@ import javafx.stage.Stage;
 
 public class TableroController {
 
-
     @FXML
     private Button volveratras;
     @FXML
@@ -34,7 +31,6 @@ public class TableroController {
     private Label valorLargo;
     @FXML
     private GridPane Grid;
-
 
     protected IntegerProperty medidaAncho = new SimpleIntegerProperty(25);
     protected IntegerProperty medidaLargo = new SimpleIntegerProperty(25);
@@ -55,32 +51,26 @@ public class TableroController {
 
     @FXML
     protected void clickVolver() {
-
         Stage stage = new Stage();
         FXMLLoader fxmlLoader = new FXMLLoader(Menu.class.getResource("menu.fxml"));
         try {
-
             Scene scene = new Scene(fxmlLoader.load(), 800, 500);
             stage.setTitle("Pantalla Inicio");
             stage.setScene(scene);
             stage.show();
             Stage ventanaActual = (Stage) volveratras.getScene().getWindow();
             ventanaActual.close();
-
-
         } catch (Exception e) {
             e.printStackTrace();
-
         }
     }
-
 
     @FXML
     protected void clickSiguiente() {
         int ancho = medidaAncho.get();
         int largo = medidaLargo.get();
 
-        System.out.println("aaaa" + ancho + "bbbb" + largo);
+        double Tamaño = Math.min(2000.0 / ancho, 1000.0 / largo);
 
         Grid.getChildren().clear();
         for (int fila = 0; fila < ancho; fila++) {
@@ -88,86 +78,104 @@ public class TableroController {
 
                 if (fila == 0 && columna == 0) {
                     Button matButton = new Button("MAT");
-                    matButton.setMinSize(100, 100);
+                    matButton.setMinSize(Tamaño, Tamaño);
+                    matButton.setMaxSize(Tamaño, Tamaño);
                     matButton.setAlignment(Pos.CENTER);
                     matButton.setStyle("-fx-border-color: #000000; -fx-text-alignment: center;");
+                    ProgramaTablero.Matematico matematico = new ProgramaTablero.Matematico();
+                    matButton.setUserData(matematico);
                     Grid.add(matButton, fila, columna);
                     continue;
                 }
-
                 if (fila == 0 && columna == largo - 1) {
                     Button hisButton = new Button("HIS");
-                    hisButton.setMinSize(100, 100);
+                    hisButton.setMinSize(Tamaño, Tamaño);
+                    hisButton.setMaxSize(Tamaño, Tamaño);
                     hisButton.setAlignment(Pos.CENTER);
                     hisButton.setStyle("-fx-border-color: #000000; -fx-text-alignment: center;");
+                    ProgramaTablero.Historiador historiador = new ProgramaTablero.Historiador();
+                    hisButton.setUserData(historiador);
                     Grid.add(hisButton, fila, columna);
                     continue;
                 }
 
                 if (fila == ancho - 1 && columna == 0) {
                     Button poeButton = new Button("POE");
-                    poeButton.setMinSize(100, 100);
+                    poeButton.setMinSize(Tamaño, Tamaño);
+                    poeButton.setMaxSize(Tamaño, Tamaño);
                     poeButton.setAlignment(Pos.CENTER);
                     poeButton.setStyle("-fx-border-color: #000000; -fx-text-alignment: center;");
+                    ProgramaTablero.Poeta poeta = new ProgramaTablero.Poeta();
+                    poeButton.setUserData(poeta);
                     Grid.add(poeButton, fila, columna);
                     continue;
                 }
 
                 if (fila == ancho - 1 && columna == largo - 1) {
                     Button medButton = new Button("MED");
-                    medButton.setMinSize(100, 100);
+                    medButton.setMinSize(Tamaño, Tamaño);
+                    medButton.setMaxSize(Tamaño, Tamaño);
                     medButton.setAlignment(Pos.CENTER);
                     medButton.setStyle("-fx-border-color: #000000; -fx-text-alignment: center;");
+                    ProgramaTablero.Medico medico = new ProgramaTablero.Medico();
+                    medButton.setUserData(medico);
                     Grid.add(medButton, fila, columna);
-                }else {
+                } else {
                     int numero1 = (int) (Math.random() * 30);
                     if (numero1 == 0) {
-                        Button casilla = new Button("+1 defensa");
-                        casilla.setMinSize(100, 100);
+                        Button casilla = new Button("+1 MOV");
+                        casilla.setMinSize(Tamaño, Tamaño);
+                        casilla.setMaxSize(Tamaño, Tamaño);
                         casilla.setAlignment(Pos.CENTER);
                         casilla.setStyle("-fx-border-color: #000000; -fx-text-alignment: center;");
                         Grid.add(casilla, fila, columna);
                     } else if (numero1 == 1) {
-                        Button casilla = new Button("+1 ataque");
-                        casilla.setMinSize(100, 100);
+                        Button casilla = new Button("+1 ATQ");
+                        casilla.setMinSize(Tamaño, Tamaño);
+                        casilla.setMaxSize(Tamaño, Tamaño);
                         casilla.setAlignment(Pos.CENTER);
                         casilla.setStyle("-fx-border-color: #000000; -fx-text-alignment: center;");
                         Grid.add(casilla, fila, columna);
                     } else if (numero1 == 2) {
-                        Button casilla = new Button("+1 movimiento");
-                        casilla.setMinSize(100, 100);
+                        Button casilla = new Button("+1 HP");
+                        casilla.setMinSize(Tamaño, Tamaño);
+                        casilla.setMaxSize(Tamaño, Tamaño);
                         casilla.setAlignment(Pos.CENTER);
                         casilla.setStyle("-fx-border-color: #000000; -fx-text-alignment: center;");
                         Grid.add(casilla, fila, columna);
                     } else if (numero1 == 3) {
-                        Button casilla = new Button("-1 defensa");
-                        casilla.setMinSize(100, 100);
+                        Button casilla = new Button("-1 MOV");
+                        casilla.setMinSize(Tamaño, Tamaño);
+                        casilla.setMaxSize(Tamaño, Tamaño);
                         casilla.setAlignment(Pos.CENTER);
                         casilla.setStyle("-fx-border-color: #000000; -fx-text-alignment: center;");
                         Grid.add(casilla, fila, columna);
                     } else if (numero1 == 4) {
-                        Button casilla = new Button("-1 ataque");
-                        casilla.setMinSize(100, 100);
+                        Button casilla = new Button("-1 ATQ");
+                        casilla.setMinSize(Tamaño, Tamaño);
+                        casilla.setMaxSize(Tamaño, Tamaño);
                         casilla.setAlignment(Pos.CENTER);
                         casilla.setStyle("-fx-border-color: #000000; -fx-text-alignment: center;");
                         Grid.add(casilla, fila, columna);
                     } else if (numero1 == 5) {
-                        Button casilla = new Button("-1 movimiento");
-                        casilla.setMinSize(100, 100);
+                        Button casilla = new Button("-1 HP");
+                        casilla.setMinSize(Tamaño, Tamaño);
+                        casilla.setMaxSize(Tamaño, Tamaño);
                         casilla.setAlignment(Pos.CENTER);
                         casilla.setStyle("-fx-border-color: #000000; -fx-text-alignment: center;");
                         Grid.add(casilla, fila, columna);
                     } else {
                         Button casilla = new Button("");
-                        casilla.setMinSize(100, 100);
+                        casilla.setMinSize(Tamaño, Tamaño);
+                        casilla.setMaxSize(Tamaño, Tamaño);
                         casilla.setAlignment(Pos.CENTER);
                         casilla.setStyle("-fx-border-color: #000000; -fx-text-alignment: center;");
                         Grid.add(casilla, fila, columna);
                     }
                 }
-
             }
         }
+
         Stage stage = new Stage();
         FXMLLoader fxmlLoader = new FXMLLoader(Menu.class.getResource("partida.fxml"));
         IAController IAController = new IAController();

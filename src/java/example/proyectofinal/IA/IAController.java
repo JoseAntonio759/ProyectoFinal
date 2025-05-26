@@ -70,7 +70,7 @@ public class IAController {
             Unidades enemigoMasCercano = encontrarEnemigoMasCercano(unidad);
             if (enemigoMasCercano != null) {
                 int distancia = calcularDistancia(unidad, enemigoMasCercano);
-                if (distancia <= unidad.getRango_ataque()) {
+                if (distancia <= unidad.getMovimiento()) {
                     unidad.ataque(unidad, enemigoMasCercano);
                 } else {
                     int nuevaX = unidad.getX();
@@ -85,4 +85,4 @@ public class IAController {
         }
     }
 }
-        
+

@@ -7,7 +7,7 @@ import example.proyectofinal.IA.Vertice;
 import java.util.*;
 
 public class Grafo<T> {
-    List<Vertice<T>> vertices;
+    public List<Vertice<T>> vertices;
     List<Arista<T>> arista;
 
     public Grafo() {

@@ -13,4 +13,6 @@ module example.proyectofinal {
 
     opens example.proyectofinal to javafx.fxml;
     exports example.proyectofinal;
+    exports example.proyectofinal.IA;
+    opens example.proyectofinal.IA to javafx.fxml;
 }

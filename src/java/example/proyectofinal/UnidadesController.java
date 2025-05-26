@@ -1,8 +1,5 @@
 package example.proyectofinal;
 
-import example.proyectofinal.Casilla;
-import example.proyectofinal.Tablero;
-import example.proyectofinal.Unidades;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -13,17 +10,13 @@ public class UnidadesController {
     @FXML
     private Button salir;
     @FXML
+    private Label hp;
+    @FXML
     private Label nombre;
-    public Label rango_ataque;
-    public Label movimiento;
-    public Label hp;
-    public Label daño;
-
     @FXML
-    private Button moverse;
+    private Label daño;
     @FXML
-    private Button atacar;
-
+    private Label movimiento;
 
     private final int filas = 10;
     private final int columnas = 10;
@@ -45,34 +38,36 @@ public class UnidadesController {
                 btn.setOnAction(e -> manejarClick(f, c));
 
                 botones[fila][col] = btn;
+                manejarClick(fila, col);
             }
         }
+
+        // Inicializar labels
+        hp.setText("HP: --");
+        daño.setText("Daño: --");
+        nombre.setText("Nombre: --");
+        movimiento.setText("Movimiento: --");
     }
 
     private void manejarClick(int fila, int col) {
         Casilla casilla = tablero.getCasilla(fila, col);
         if (casilla.estaOcupada()) {
             Unidades u = casilla.getUnidad();
+            hp.setText("HP: " + u.getHp());
+            daño.setText("Daño: " + u.getDaño());
+            nombre.setText("Nombre: " + u.getNombre());
+            movimiento.setText("Movimiento: " + u.getMovimiento());
+        } else {
+            hp.setText("HP: --");
+            daño.setText("Daño: --");
+            nombre.setText("Nombre: --");
+            movimiento.setText("Movimiento: --");
         }
     }
-
 
     @FXML
     private void clickSalir() {
         Stage ventanaActual = (Stage) salir.getScene().getWindow();
         ventanaActual.close();
     }
-    @FXML
-    public  void showStats(Unidades unidad) {
-
-        hp.setText("Salud: " + unidad.getHp());
-        daño.setText("Daño: " +  unidad.getDaño());
-        movimiento.setText("Movimiento: " + unidad.getMovimiento());
-        rango_ataque.setText("Rango ataque: " + unidad.getRango_ataque());
-        nombre.setText("Unidad: "+ unidad.getNombre());
-    }
-
-
-
-
 }
