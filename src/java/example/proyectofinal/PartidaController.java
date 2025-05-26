@@ -16,6 +16,8 @@ public class PartidaController {
     @FXML
     private GridPane gridPane;
     @FXML
+    private Label Acciones;
+    @FXML
     private Label Turnos;
     private int ancho;
     private int largo;
@@ -98,10 +100,23 @@ public class PartidaController {
         } else {
             if (button.getStyle().contains("-fx-background-color: #ff0000") && button.getUserData() instanceof Unidades targetUnidad) {
                 targetUnidad.setHp(targetUnidad.getHp() - selectedUnidad.getDaño());
+                if (Acciones != null) {
+                    Acciones.setText(selectedUnidad.getNombre() + " ha atacado a " + targetUnidad.getNombre() +
+                            " con " + selectedUnidad.getDaño() + " puntos de daño.");
+                }
                 if (targetUnidad.getHp() <= 0) {
                     button.setText("");
                     button.setUserData(null);
                     button.setStyle("");
+                    if (Acciones != null) {
+                        Acciones.setText(selectedUnidad.getNombre() + " ha matado a " + targetUnidad.getNombre());
+                    }
+                    if (targetUnidad.getNombre().equals("Filosofo")) {
+                        ProgramaTablero.incRondas();
+                    }
+                    if (targetUnidad.getNombre().equals("Poeta")) {
+                        ProgramaTablero.incRondas();
+                    }
                 }
                 selectedUnit = null;
                 selectedUnidad = null;
@@ -121,12 +136,38 @@ public class PartidaController {
                 selectedUnit.setUserData(null);
                 limpiarMarcas();
 
-                if (powerUp.equals("+1ATQ")) selectedUnidad.setDaño(selectedUnidad.getDaño() + 1);
-                else if (powerUp.equals("-1ATQ")) selectedUnidad.setDaño(selectedUnidad.getDaño() - 1);
-                else if (powerUp.equals("+1HP")) selectedUnidad.setHp(selectedUnidad.getHp() + 1);
-                else if (powerUp.equals("-1HP")) selectedUnidad.setHp(selectedUnidad.getHp() - 1);
-                else if (powerUp.equals("+1MOV")) selectedUnidad.setMovimiento(selectedUnidad.getMovimiento() + 1);
-                else if (powerUp.equals("-1MOV")) selectedUnidad.setMovimiento(selectedUnidad.getMovimiento() - 1);
+                if (powerUp.equals("+1ATQ")){
+                    selectedUnidad.setDaño(selectedUnidad.getDaño() + 1);
+                    if (Acciones != null) {
+                        Acciones.setText(selectedUnidad.getNombre() + " ha recibido un powerUp de +1ATQ");
+                    }
+                }
+                else if (powerUp.equals("-1ATQ")){ selectedUnidad.setDaño(selectedUnidad.getDaño() - 1)
+                ; if (Acciones != null) {
+                    Acciones.setText(selectedUnidad.getNombre() + " ha recibido un powerUp de -1ATQ");
+                }
+                }
+                else if (powerUp.equals("+1HP")){ selectedUnidad.setHp(selectedUnidad.getHp() + 1)
+                ; if (Acciones != null) {
+                    Acciones.setText(selectedUnidad.getNombre() + " ha recibido un powerUp de +1HP");
+                }
+                }
+                else if (powerUp.equals("-1HP")){ selectedUnidad.setHp(selectedUnidad.getHp() - 1)
+                ; if (Acciones != null) {
+                    Acciones.setText(selectedUnidad.getNombre() + " ha recibido un powerUp de -1HP");
+                }
+                }
+                else if (powerUp.equals("+1MOV")){ selectedUnidad.setMovimiento(selectedUnidad.getMovimiento() + 1)
+                ; if (Acciones != null) {
+                    Acciones.setText(selectedUnidad.getNombre() + " ha recibido un powerUp de +1MOV");
+                }
+                }
+                else if (powerUp.equals("-1MOV")){
+                    selectedUnidad.setMovimiento(selectedUnidad.getMovimiento() - 1);
+                    if (Acciones != null) {
+                        Acciones.setText(selectedUnidad.getNombre() + " ha recibido un powerUp de -1MOV");
+                    }
+                }
 
                 selectedUnit = null;
                 selectedUnidad = null;
@@ -432,7 +473,6 @@ public class PartidaController {
 
 class ProgramaTablero {
     private static int rondas = 0;
-    static IAController ia = new IAController();
     protected static void incRondas() {
         rondas++;
     }
@@ -510,9 +550,6 @@ class ProgramaTablero {
 
         public boolean ataque(Unidades unidadAtaque, Unidades unidadDefensa) {
             if (super.ataque(unidadAtaque, unidadDefensa) == true) {
-                rondas++;
-                aparicion_personaje();
-                IA();
                 return true;
             }
             return false;
@@ -547,9 +584,6 @@ class ProgramaTablero {
 
         public boolean ataque(Unidades unidadAtaque, Unidades unidadDefensa) {
             if (super.ataque(unidadAtaque, unidadDefensa) == true) {
-                rondas++;
-                aparicion_personaje();
-                IA();
                 return true;
             }
             return false;
@@ -584,9 +618,7 @@ class ProgramaTablero {
 
         public boolean ataque(Unidades unidadAtaque, Unidades unidadDefensa) {
             if (super.ataque(unidadAtaque, unidadDefensa) == true) {
-                rondas++;
-                aparicion_personaje();
-                IA();
+
                 return true;
             }
             return false;
@@ -621,9 +653,6 @@ class ProgramaTablero {
 
         public boolean ataque(Unidades unidadAtaque, Unidades unidadDefensa) {
             if (super.ataque(unidadAtaque, unidadDefensa) == true) {
-                rondas++;
-                aparicion_personaje();
-                IA();
                 return true;
             }
             return false;
@@ -658,9 +687,6 @@ class ProgramaTablero {
 
         public boolean ataque(Unidades unidadAtaque, Unidades unidadDefensa) {
             if (super.ataque(unidadAtaque, unidadDefensa) == true) {
-                rondas++;
-                aparicion_personaje();
-                IA();
                 return true;
             }
             return false;
@@ -695,9 +721,6 @@ class ProgramaTablero {
 
         public boolean ataque(Unidades unidadAtaque, Unidades unidadDefensa) {
             if (super.ataque(unidadAtaque, unidadDefensa) == true) {
-                rondas++;
-                aparicion_personaje();
-                IA();
                 return true;
             }
             return false;
@@ -732,9 +755,6 @@ class ProgramaTablero {
 
         public boolean ataque(Unidades unidadAtaque, Unidades unidadDefensa) {
             if (super.ataque(unidadAtaque, unidadDefensa) == true) {
-                rondas++;
-                aparicion_personaje();
-                IA();
                 return true;
             }
             return false;
@@ -769,9 +789,6 @@ class ProgramaTablero {
 
         public boolean ataque(Unidades unidadAtaque, Unidades unidadDefensa) {
             if (super.ataque(unidadAtaque, unidadDefensa) == true) {
-                rondas++;
-                aparicion_personaje();
-                IA();
                 return true;
             }
             return false;
@@ -806,9 +823,6 @@ class ProgramaTablero {
 
         public boolean ataque(Unidades unidadAtaque, Unidades unidadDefensa) {
             if (super.ataque(unidadAtaque, unidadDefensa) == true) {
-                rondas++;
-                aparicion_personaje();
-                IA();
                 return true;
             }
             return false;
@@ -843,9 +857,6 @@ class ProgramaTablero {
 
         public boolean ataque(Unidades unidadAtaque, Unidades unidadDefensa) {
             if (super.ataque(unidadAtaque, unidadDefensa) == true) {
-                rondas++;
-                aparicion_personaje();
-                IA();
 
                 return true;
             }
@@ -861,39 +872,7 @@ class ProgramaTablero {
         return (int) (Math.random() * rondas) + 1;
     }
 
-    protected static void aparicion_personaje() {
-        int alea = obtenerNumeroDel1Arondas();
-        if (alea == rondas) {
-            int numero = obtenerNumeroDel1Al5();
-            if (numero == 1) {
-                Matematico matematico = new Matematico();
-                Filosofo filosofo = new Filosofo();
-            }
-            if (numero == 2) {
-                Medico medico = new Medico();
-                Historiador historiador = new Historiador();
-            }
-            if (numero == 3) {
-                Filologo filologo = new Filologo();
-                Arquitecto arquitecto = new Arquitecto();
-            }
-            if (numero == 4) {
-                Poeta poeta = new Poeta();
-                Fisico fisico = new Fisico();
-            }
-            if (numero == 5) {
-                Ingeniero ingeniero = new Ingeniero();
-                Periodista periodista = new Periodista();
-            }
-        }
 
-    }
-    protected static void IA(){
-        if (rondas%2 != 0) {
-            ia.turno();
-            rondas++;
-        }
-    }
 
 }
 
