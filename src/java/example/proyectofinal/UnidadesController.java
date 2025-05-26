@@ -5,12 +5,19 @@ import example.proyectofinal.Tablero;
 import example.proyectofinal.Unidades;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 public class UnidadesController {
 
     @FXML
     private Button salir;
+    @FXML
+    private Label nombre;
+    public Label rango_ataque;
+    public Label movimiento;
+    public Label hp;
+    public Label daño;
 
     @FXML
     private Button moverse;
@@ -55,4 +62,17 @@ public class UnidadesController {
         Stage ventanaActual = (Stage) salir.getScene().getWindow();
         ventanaActual.close();
     }
+    @FXML
+    public  void showStats(Unidades unidad) {
+
+        hp.setText("Salud: " + unidad.getHp());
+        daño.setText("Daño: " +  unidad.getDaño());
+        movimiento.setText("Movimiento: " + unidad.getMovimiento());
+        rango_ataque.setText("Rango ataque: " + unidad.getRango_ataque());
+        nombre.setText("Unidad: "+ unidad.getNombre());
+    }
+
+
+
+
 }

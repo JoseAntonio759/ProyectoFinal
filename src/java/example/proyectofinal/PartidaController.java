@@ -40,11 +40,11 @@ public class PartidaController {
 
     private void Control(Button button, MouseEvent event) {
         if (selectedUnit == null) {
-            if (!button.getText().isEmpty()) {
+            if (!button.getText().isEmpty() && !(button.getText().length()>3)) {
                 selectedUnit = button;
                 marcarCasillasMovimientoPosibles(button);
                 if (event.getClickCount() == 2) {
-                    abrirVentanaUnidades();
+                    abrirVentanaUnidades(traductorUnidades(button));
                 }
             }
         } else {
@@ -53,11 +53,11 @@ public class PartidaController {
                 selectedUnit.setText("");
                 limpiarMarcas();
                 selectedUnit = null;
-            } else if (!button.getText().isEmpty()) {
+            } else if (!button.getText().isEmpty() && !(button.getText().length()>3)) {
                 selectedUnit = button;
                 marcarCasillasMovimientoPosibles(button);
                 if (event.getClickCount() == 2) {
-                    abrirVentanaUnidades();
+                    abrirVentanaUnidades(traductorUnidades(button));
                 }
             }
         }
@@ -128,22 +128,36 @@ public class PartidaController {
     }
 
 
-    private void abrirVentanaUnidades() {
-        try {
-            FXMLLoader loader = new FXMLLoader(Menu.class.getResource("unidades.fxml"));
-            Scene scene = new Scene(loader.load(), 800, 500);
-            Stage stage = new Stage();
+    private void abrirVentanaUnidades(Unidades unidad) {
+        if (unidad != null) {
+            try {
+                FXMLLoader loader = new FXMLLoader(Menu.class.getResource("unidades.fxml"));
+                Scene scene = new Scene(loader.load(), 800, 500);
+                Stage stage = new Stage();
 
-            unidadesController = loader.getController();
-            if (selectedUnit != null) {
-                stage.setTitle("Informacion de Unidad");
-                stage.setScene(scene);
-                stage.show();
+                unidadesController = loader.getController();
+                if (selectedUnit != null ) {
+                    stage.setTitle("Informacion de Unidad");
+                    stage.setScene(scene);
+                    stage.show();
+                    unidadesController.showStats(unidad);
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-
-        } catch (Exception e) {
-            e.printStackTrace();
         }
+    }
+    private Unidades traductorUnidades(Button button) {
+        if (button.getText()== "MAT"){Unidades unidad = new ProgramaTablero.Matematico();
+        return unidad;}
+        if (button.getText()== "HIS"){Unidades unidad = new ProgramaTablero.Historiador();
+        return unidad;}
+        if (button.getText()== "POE"){Unidades unidad = new ProgramaTablero.Poeta();
+        return unidad;}
+        if (button.getText()== "MED"){Unidades unidad = new ProgramaTablero.Medico();
+        return unidad;}
+        else return null;
     }
 }
 
