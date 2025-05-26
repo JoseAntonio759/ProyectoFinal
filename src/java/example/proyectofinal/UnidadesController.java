@@ -17,6 +17,8 @@ public class UnidadesController {
     private Label daño;
     @FXML
     private Label movimiento;
+    @FXML
+    private Label faccion;
 
     private final int filas = 10;
     private final int columnas = 10;
@@ -69,6 +71,8 @@ public class UnidadesController {
         daño.setText("Daño: " + u.getDaño());
         nombre.setText("Nombre: " + u.getNombre());
         movimiento.setText("Movimiento: " + u.getMovimiento());
+        faccion.setText("Faccion: " + u.getFaccion());
+
 
     }
     @FXML
