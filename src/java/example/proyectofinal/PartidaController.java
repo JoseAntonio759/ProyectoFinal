@@ -1,6 +1,8 @@
 package example.proyectofinal;
 
 import example.proyectofinal.IA.IAController;
+import example.proyectofinal.IA.Iterador;
+import example.proyectofinal.IA.Lista;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -29,13 +31,45 @@ public class PartidaController {
     private Unidades medico = new ProgramaTablero.Medico();
     private Unidades poeta = new ProgramaTablero.Poeta();
     private Unidades historiador = new ProgramaTablero.Historiador();
+    @FXML
+    private Button botonGuardarPartida;
 
 
     @FXML
     public void initialize() {
         contarUnidades();
     }
+   /* public void onbotonGuardarPartidaButtonClick(){
+        Lista<Casilla> casillas = new Lista<Casilla>() {
+            @Override
+            public boolean add(Casilla elemento) {
+                return false;
+            }
 
+            @Override
+            public boolean delete(Casilla elemento) {
+                return false;
+            }
+
+            @Override
+            public Iterador<Casilla> getIterador() {
+                return null;
+            }
+
+            @Override
+            public int getNumElementos() {
+                return 0;
+            }
+        }; {
+
+        }
+        for (int fila = 0; fila < ancho; fila++) {
+            for (int column = 0; column < largo; column++) {
+                casillas.add(new Casilla())
+            }
+        }
+
+    }*/
     public void setDimensiones(int ancho, int largo) {
         this.ancho = ancho;
         this.largo = largo;
@@ -59,13 +93,13 @@ public class PartidaController {
                         total++;
                     } else if (texto.equals("POE")) {
                         total++;
-                    } else if (texto.equals("HIS")) {
+                    } else if (texto.equals("")) {
                         total++;
                     }
                 }
             }
 
-            System.out.println("Total unidades: " + total);
+
         }
     }
 
@@ -82,109 +116,188 @@ public class PartidaController {
             }
         }
     }
+    private int contarUnidadesCiencias() {
+        int total = 0;
+        if (gridPane != null) {
+            total = 0;
+
+            for (Node node : gridPane.getChildren()) {
+                if (node instanceof Button) {
+                    Button button = (Button) node;
+                    String texto = button.getText();
+
+                    if (texto.equals("MAT")) {
+                        total++;
+                    } else if (texto.equals("MED")) {
+                        total++;
+                    }else if (texto.equals("ARQ")) {
+                    total++;
+                    }else if (texto.equals("FIS")) {
+                        total++;
+                    }else if (texto.equals("ING")) {
+                        total++;
+                    }
+                }
+
+
+            }
+
+        }
+        return total;
+    }
+    private int contarUnidadesLetras() {
+        int total = 0;
+        if (gridPane != null) {
+            total = 0;
+
+            for (Node node : gridPane.getChildren()) {
+                if (node instanceof Button) {
+                    Button button = (Button) node;
+                    String texto = button.getText();
+
+                    if (texto.equals("POE")) {
+                        total++;
+                    } else if (texto.equals("HIS")) {
+                        total++;
+                    }else if (texto.equals("FIL")) {
+                        total++;
+                    }else if (texto.equals("PER")) {
+                        total++;
+                    }else if (texto.equals("FI")) {
+                        total++;}
+
+                }
+            }
+
+        }
+        return total;
+    }
 
 
 
     private void Control(Button button, MouseEvent event) {
         String faccionTurno = (contadorTurnos % 2 == 0) ? "Ciencias" : "Letras";
 
-        if (selectedUnit == null) {
-            if (button.getUserData() instanceof Unidades tempUnidad && tempUnidad.getFaccion().equals(faccionTurno)) {
-                selectedUnit = button;
-                selectedUnidad = tempUnidad;
-                marcarCasillasMovimientoPosibles(button);
-                if (event.getClickCount() == 2) {
-                    abrirVentanaUnidades();
-                }
-            }
-        } else {
-            if (button.getStyle().contains("-fx-background-color: #ff0000") && button.getUserData() instanceof Unidades targetUnidad) {
-                targetUnidad.setHp(targetUnidad.getHp() - selectedUnidad.getDaño());
-                if (Acciones != null) {
-                    Acciones.setText(selectedUnidad.getNombre() + " ha atacado a " + targetUnidad.getNombre() +
-                            " con " + selectedUnidad.getDaño() + " puntos de daño.");
-                }
-                if (targetUnidad.getHp() <= 0) {
-                    button.setText("");
-                    button.setUserData(null);
-                    button.setStyle("");
-                    if (Acciones != null) {
-                        Acciones.setText(selectedUnidad.getNombre() + " ha matado a " + targetUnidad.getNombre());
-                    }
-                    if (targetUnidad.getNombre().equals("Filosofo")) {
-                        ProgramaTablero.incRondas();
-                    }
-                    if (targetUnidad.getNombre().equals("Poeta")) {
-                        ProgramaTablero.incRondas();
-                    }
-                }
-                selectedUnit = null;
-                selectedUnidad = null;
-                contadorTurnos++;
-                Turnos.setText("Turno: " + contadorTurnos);
-                aparicionPersonaje();
-                limpiarMarcas();
-                contarUnidades();
-                return;
-            }
+        if ( contarUnidadesLetras()== 0 || contarUnidadesCiencias() == 0){
+            Stage stage = new Stage();
+            FXMLLoader fxmlLoader = new FXMLLoader(MenuController.class.getResource("final.fxml"));
+            String titulo = "";
+            if (contarUnidadesLetras() == 0){ titulo = "CIENCIAS HA GANADO!";}
+            if (contarUnidadesCiencias() == 0){ titulo = "CIENCIAS HA GANADO!";}
+            try {
 
-            if (button.getStyle().contains("-fx-background-color: #00ff00") || button.getStyle().contains("-fx-background-color: #ffff00")) {
-                String powerUp = button.getText();
-                button.setText(selectedUnit.getText());
-                button.setUserData(selectedUnit.getUserData());
-                selectedUnit.setText("");
-                selectedUnit.setUserData(null);
-                limpiarMarcas();
+                Scene scene = new Scene(fxmlLoader.load(), 800, 500);
+                stage.setTitle(titulo);
+                stage.setScene(scene);
+                stage.show();
+                Stage ventanaActual = (Stage) Turnos.getScene().getWindow();
+                ventanaActual.close();
 
-                if (powerUp.equals("+1ATQ")){
-                    selectedUnidad.setDaño(selectedUnidad.getDaño() + 1);
-                    if (Acciones != null) {
-                        Acciones.setText(selectedUnidad.getNombre() + " ha recibido un powerUp de +1ATQ");
+
+            } catch (Exception e) {
+                e.printStackTrace();}}
+        else {
+            if (selectedUnit == null) {
+                if (button.getUserData() instanceof Unidades tempUnidad && tempUnidad.getFaccion().equals(faccionTurno)) {
+                    selectedUnit = button;
+                    selectedUnidad = tempUnidad;
+                    marcarCasillasMovimientoPosibles(button);
+                    if (event.getClickCount() == 2) {
+                        abrirVentanaUnidades();
                     }
                 }
-                else if (powerUp.equals("-1ATQ")){ selectedUnidad.setDaño(selectedUnidad.getDaño() - 1)
-                ; if (Acciones != null) {
-                    Acciones.setText(selectedUnidad.getNombre() + " ha recibido un powerUp de -1ATQ");
-                }
-                }
-                else if (powerUp.equals("+1HP")){ selectedUnidad.setHp(selectedUnidad.getHp() + 1)
-                ; if (Acciones != null) {
-                    Acciones.setText(selectedUnidad.getNombre() + " ha recibido un powerUp de +1HP");
-                }
-                }
-                else if (powerUp.equals("-1HP")){ selectedUnidad.setHp(selectedUnidad.getHp() - 1)
-                ; if (Acciones != null) {
-                    Acciones.setText(selectedUnidad.getNombre() + " ha recibido un powerUp de -1HP");
-                }
-                }
-                else if (powerUp.equals("+1MOV")){ selectedUnidad.setMovimiento(selectedUnidad.getMovimiento() + 1)
-                ; if (Acciones != null) {
-                    Acciones.setText(selectedUnidad.getNombre() + " ha recibido un powerUp de +1MOV");
-                }
-                }
-                else if (powerUp.equals("-1MOV")){
-                    selectedUnidad.setMovimiento(selectedUnidad.getMovimiento() - 1);
+            } else {
+                if (button.getStyle().contains("-fx-background-color: #ff0000") && button.getUserData() instanceof Unidades targetUnidad) {
+                    targetUnidad.setHp(targetUnidad.getHp() - selectedUnidad.getDaño());
                     if (Acciones != null) {
-                        Acciones.setText(selectedUnidad.getNombre() + " ha recibido un powerUp de -1MOV");
+                        Acciones.setText(selectedUnidad.getNombre() + " ha atacado a " + targetUnidad.getNombre() +
+                                " con " + selectedUnidad.getDaño() + " puntos de daño.");
                     }
+                    if (targetUnidad.getHp() <= 0) {
+                        button.setText("");
+                        button.setUserData(null);
+                        button.setStyle("");
+                        if (Acciones != null) {
+                            Acciones.setText(selectedUnidad.getNombre() + " ha matado a " + targetUnidad.getNombre());
+                        }
+                        if (targetUnidad.getNombre().equals("Filosofo")) {
+                            ProgramaTablero.incRondas();
+                        }
+                        if (targetUnidad.getNombre().equals("Poeta")) {
+                            ProgramaTablero.incRondas();
+                        }
+                    }
+                    selectedUnit = null;
+                    selectedUnidad = null;
+                    contadorTurnos++;
+                    Turnos.setText("Turno: " + contadorTurnos);
+                    aparicionPersonaje();
+                    limpiarMarcas();
+                    contarUnidades();
+                    return;
                 }
 
-                selectedUnit = null;
-                selectedUnidad = null;
-                contadorTurnos++;
-                Turnos.setText("Turno: " + contadorTurnos);
-                aparicionPersonaje();
-                contarUnidades();
-            } else if (button.getUserData() instanceof Unidades tempUnidad && tempUnidad.getFaccion().equals(faccionTurno)) {
-                selectedUnit = button;
-                selectedUnidad = tempUnidad;
-                marcarCasillasMovimientoPosibles(button);
-                if (event.getClickCount() == 2) {
-                    abrirVentanaUnidades();
+                if (button.getStyle().contains("-fx-background-color: #00ff00") || button.getStyle().contains("-fx-background-color: #ffff00")) {
+                    String powerUp = button.getText();
+                    button.setText(selectedUnit.getText());
+                    button.setUserData(selectedUnit.getUserData());
+                    selectedUnit.setText("");
+                    selectedUnit.setUserData(null);
+                    limpiarMarcas();
+
+                    if (powerUp.equals("+1ATQ")){
+                        selectedUnidad.setDaño(selectedUnidad.getDaño() + 1);
+                        if (Acciones != null) {
+                            Acciones.setText(selectedUnidad.getNombre() + " ha recibido un powerUp de +1ATQ");
+                        }
+                    }
+                    else if (powerUp.equals("-1ATQ")){ selectedUnidad.setDaño(selectedUnidad.getDaño() - 1)
+                    ; if (Acciones != null) {
+                        Acciones.setText(selectedUnidad.getNombre() + " ha recibido un powerUp de -1ATQ");
+                    }
+                    }
+                    else if (powerUp.equals("+1HP")){ selectedUnidad.setHp(selectedUnidad.getHp() + 1)
+                    ; if (Acciones != null) {
+                        Acciones.setText(selectedUnidad.getNombre() + " ha recibido un powerUp de +1HP");
+                    }
+                    }
+                    else if (powerUp.equals("-1HP")){ selectedUnidad.setHp(selectedUnidad.getHp() - 1)
+                    ; if (Acciones != null) {
+                        Acciones.setText(selectedUnidad.getNombre() + " ha recibido un powerUp de -1HP");
+                    }
+                    }
+                    else if (powerUp.equals("+1MOV")){ selectedUnidad.setMovimiento(selectedUnidad.getMovimiento() + 1)
+                    ; if (Acciones != null) {
+                        Acciones.setText(selectedUnidad.getNombre() + " ha recibido un powerUp de +1MOV");
+                    }
+                    }
+                    else if (powerUp.equals("-1MOV")){
+                        selectedUnidad.setMovimiento(selectedUnidad.getMovimiento() - 1);
+                        if (Acciones != null) {
+                            Acciones.setText(selectedUnidad.getNombre() + " ha recibido un powerUp de -1MOV");
+                        }
+                    }
+
+                    selectedUnit = null;
+                    selectedUnidad = null;
+                    contadorTurnos++;
+                    Turnos.setText("Turno: " + contadorTurnos);
+                    aparicionPersonaje();
+                    contarUnidades();
+                } else if (button.getUserData() instanceof Unidades tempUnidad && tempUnidad.getFaccion().equals(faccionTurno)) {
+                    selectedUnit = button;
+                    selectedUnidad = tempUnidad;
+                    marcarCasillasMovimientoPosibles(button);
+                    if (event.getClickCount() == 2) {
+                        abrirVentanaUnidades();
+                    }
+
                 }
             }
         }
+
     }
+
 
 
     private void marcarCasillasMovimientoPosibles(Button unit) {
@@ -264,7 +377,7 @@ public class PartidaController {
                 button.setOnMouseClicked(e -> Control(button, e));
             }
         });
-        contarUnidades();
+
     }
 
     private void abrirVentanaUnidades() {
