@@ -39,7 +39,8 @@ public class PartidaController {
     public void initialize() {
         contarUnidades();
     }
-   /* public void onbotonGuardarPartidaButtonClick(){
+    @FXML
+   public void onbotonGuardarPartidaButtonClick(){
         Lista<Casilla> casillas = new Lista<Casilla>() {
             @Override
             public boolean add(Casilla elemento) {
@@ -65,11 +66,11 @@ public class PartidaController {
         }
         for (int fila = 0; fila < ancho; fila++) {
             for (int column = 0; column < largo; column++) {
-                casillas.add(new Casilla())
+                casillas.add(new Casilla(1,0,0,0));
             }
         }
 
-    }*/
+    }
     public void setDimensiones(int ancho, int largo) {
         this.ancho = ancho;
         this.largo = largo;
